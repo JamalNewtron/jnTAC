@@ -5,6 +5,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // just for testing
+
         // four mumbles for first player
         Mumble firstPlayerFirstMumble = new Mumble();
         Mumble firstPlayerSecondMumble = new Mumble();

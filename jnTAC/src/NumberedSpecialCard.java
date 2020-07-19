@@ -7,20 +7,6 @@ public class NumberedSpecialCard extends NumberedCard {
         super(cardValue);
     }
 
-
-    // move 1 or 13
-
-    // CARD FOUR
-    public void moveFourBack(final List<Player> allPlayers,
-                             final Player player,
-                             final NumberedCard card,
-                             final int mumble) {
-
-        if(AVAILABLE_CARD_NUMBERS.FOUR == this.getCardValue()){
-
-        }
-    }
-
     public void playSelectedCard(final List<Player> allPlayers,
                                  final Player player,
                                  final int mumble) {
@@ -31,6 +17,7 @@ public class NumberedSpecialCard extends NumberedCard {
                 this.bringMumbleIntoPlay(allPlayers, player, mumble);
                 break;
             case FOUR:
+                this.moveFourBack(allPlayers, player, mumble);
                 break;
             case SEVEN:
                 break;
@@ -44,7 +31,6 @@ public class NumberedSpecialCard extends NumberedCard {
 
         }
     }
-
 
     // Move mumble from PRE_FIELD to START_FIELD
     // - with 1 or 13
@@ -64,11 +50,38 @@ public class NumberedSpecialCard extends NumberedCard {
                 player.getMumbles().get(mumble).moveMumble(
                         allPlayers,
                         player,
-                        PLAYGROUND.START_FIELD,
-                        player.getStartPosition());
+                        PLAYGROUND.PRE_FIELD,
+                        player.getStartPosition(),
+                        true);
             } else {
                 System.out.println("not 1 or 13");
             }
+        }
+    }
+
+    // CARD FOUR
+    public void moveFourBack(final List<Player> allPlayers,
+                             final Player player,
+                             final int mumble) {
+
+        // Additional check
+        if(AVAILABLE_CARD_NUMBERS.FOUR == this.getCardValue()){
+
+            int currentPosition = player.getMumbles().get(mumble).getCurrentPosition();
+            int targetPosition = 0;
+
+            if((currentPosition - 4) < 1){
+                targetPosition = targetPosition - 4 + 64;
+            } else {
+                targetPosition = targetPosition - 4;
+            }
+
+            player.getMumbles().get(mumble).moveMumble(
+                    allPlayers,
+                    player,
+                    PLAYGROUND.START_FIELD,
+                    targetPosition,
+                    false);
         }
     }
 

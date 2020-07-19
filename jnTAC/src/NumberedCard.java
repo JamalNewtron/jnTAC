@@ -82,16 +82,21 @@ public class NumberedCard implements Card {
         // current position
         int currentMumblePosition = player.getMumbles().get(mumble).getCurrentPosition();
 
+
         int targetMumblePosition = currentMumblePosition + steps;
+        System.out.println(player.getPlayerName()+  ", mumble: " + mumble);
+        System.out.println(player.getPlayerName()+  ", start: " + currentMumblePosition);
+        System.out.println(player.getPlayerName()+  ", steps: " + steps);
+        System.out.println(player.getPlayerName()+  ", target: " + targetMumblePosition);;
 
         // Mumble enters HOME_FIELD or returns to new cycle
         if(targetMumblePosition > 65 && targetMumblePosition < 70) {
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.HOME_FIELD, targetMumblePosition);
+            player.getMumbles().get(mumble).moveMumble(allPlayers,player, PLAYGROUND.HOME_FIELD, targetMumblePosition, true);
         } else if(targetMumblePosition > 69){
             targetMumblePosition = targetMumblePosition - 64;
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition);
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
         } else {
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition);
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
         }
 
     }

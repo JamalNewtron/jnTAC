@@ -44,11 +44,20 @@ public class Main {
         System.out.println("");
 
 
-        firstPlayer.getCards().get(3).playSelectedCard(allPlayers, firstPlayer, 0);
-        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 0);
+        firstPlayer.getCards().get(3).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
 
-        secondPlayer.getCards().get(3).playSelectedCard(allPlayers, firstPlayer, 1);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 1);
+        secondPlayer.getCards().get(3).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+
 
         System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getCurrentPosition());
         System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getCurrentPosition());

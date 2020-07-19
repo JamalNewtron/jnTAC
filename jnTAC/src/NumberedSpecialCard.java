@@ -2,7 +2,8 @@ import java.util.List;
 
 public class NumberedSpecialCard extends NumberedCard {
 
-    public NumberedSpecialCard(final int cardValue) {
+
+    public NumberedSpecialCard(final AVAILABLE_CARD_NUMBERS cardValue) {
         super(cardValue);
     }
 
@@ -15,7 +16,31 @@ public class NumberedSpecialCard extends NumberedCard {
                              final NumberedCard card,
                              final int mumble) {
 
-        if(4 == this.getCardValue()){
+        if(AVAILABLE_CARD_NUMBERS.FOUR == this.getCardValue()){
+
+        }
+    }
+
+    public void playSelectedCard(final List<Player> allPlayers,
+                                 final Player player,
+                                 final int mumble) {
+
+        switch (this.getCardValue()){
+
+            case ONE:
+                this.bringMumbleIntoPlay(allPlayers, player, mumble);
+                break;
+            case FOUR:
+                break;
+            case SEVEN:
+                break;
+            case EIGHT:
+                break;
+            case THIRTEEN:
+                break;
+            default:
+                System.out.println("default playSelectedCard");
+                break;
 
         }
     }
@@ -33,7 +58,8 @@ public class NumberedSpecialCard extends NumberedCard {
 
             // Check whether card equals card 1 or 13
             // todo: angle card
-            if(1 == this.getCardValue() || 13 == this.getCardValue()) {
+            if(AVAILABLE_CARD_NUMBERS.ONE == this.getCardValue() ||
+                    AVAILABLE_CARD_NUMBERS.THIRTEEN == this.getCardValue()) {
 
                 player.getMumbles().get(mumble).moveMumble(
                         allPlayers,

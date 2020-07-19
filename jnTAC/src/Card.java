@@ -1,5 +1,9 @@
 import java.util.List;
 
-public class Card {
+public interface Card {
+
+    public void playSelectedCard(final List<Player> allPlayers,
+                                 final Player player,
+                                 final int mumble);
 
 }

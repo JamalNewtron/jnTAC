@@ -1,7 +1,7 @@
 public class PlayingField {
 
     private static PlayingField playingField;
-    private Mumble field[];
+    private Mumble[] field;
 
     private PlayingField(){
         this.field = new Mumble[65];

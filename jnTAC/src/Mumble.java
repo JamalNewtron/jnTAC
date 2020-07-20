@@ -68,8 +68,8 @@ public class Mumble {
                         if (PlayingField.getPlayingField().getField(targetPosition).player.equals(player)) {
                             System.out.println("Can not move, position occupied by own mumble.");
                         } else {
-                            // If the position is occupied by an other mumble we can replace it with ours.
-                            // Remove mumble from position and move it to the PRE_FIELD
+                            // If the position is occupied by an opponent mumble we can replace it with ours.
+                            // Remove opponent mumble from position and move it to the PRE_FIELD
                             // Place own mumble on the target position
                             PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
                         }

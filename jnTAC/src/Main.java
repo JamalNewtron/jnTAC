@@ -57,10 +57,7 @@ public class Main {
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+
 
 
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
@@ -97,6 +94,31 @@ public class Main {
                 System.out.println(PlayingField.getPlayingField().getField(i).getPosition());
             }
         }
+
+
+
+        DataStructure<Mumble> test = new DataStructure<>();
+
+        test.add(new Mumble(firstPlayer, 6, PLAYGROUND.START_FIELD, true));
+        test.add(new Mumble(firstPlayer, 2, PLAYGROUND.START_FIELD, true));
+        test.add(new Mumble(firstPlayer, 45, PLAYGROUND.START_FIELD, true));
+
+        System.out.println("my own structure: " + test.get(0).getPosition());
+        System.out.println("my own structure: " + test.get(1).getPosition());
+        System.out.println("my own structure: " + test.get(2).getPosition());
+
+        test.set(1, new Mumble(firstPlayer, 234, PLAYGROUND.START_FIELD, true));
+
+        System.out.println("my own structure: " + test.get(0).getPosition());
+        System.out.println("my own structure: " + test.get(1).getPosition());
+        System.out.println("my own structure: " + test.get(2).getPosition());
+
+
+
+
+
+
+
 
     }
 }

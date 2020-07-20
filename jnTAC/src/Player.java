@@ -4,6 +4,7 @@ import java.util.List;
 public class Player {
     private List<Mumble> mumbles;
     private List<Card> cards;
+    private List<Mumble> homeField;
     private int startPosition;
     private String playerName;
     private int playerNumber;
@@ -12,7 +13,7 @@ public class Player {
     public Player(final List<Card> cards,
                   final int startPosition,
                   final String playerName) {
-        this(null, cards, startPosition, playerName);
+        this(null, cards, null, startPosition, playerName);
 
         // four mumbles
         Mumble firstMumble = new Mumble(this);
@@ -31,15 +32,22 @@ public class Player {
 
         this.mumbles = playerMumbles;
 
+        this.homeField = new LinkedList<>();
+        for(int i = 0; i < 4; i++) {
+            this.homeField.add(null);
+        }
+
     }
 
     public Player(final List<Mumble> mumbles,
                   final List<Card> cards,
+                  final List<Mumble> homeField,
                   final int startPosition,
                   final String playerName) {
 
         this.mumbles = mumbles;
         this.cards = cards;
+        this.homeField = homeField;
         this.startPosition = startPosition;
         this.playerName = playerName;
         this.playerNumber = playerNumberCounter;

@@ -15,10 +15,10 @@ public class Player {
         this(null, cards, startPosition, playerName);
 
         // four mumbles
-        Mumble firstMumble = new Mumble();
-        Mumble secondMumble = new Mumble();
-        Mumble thirdMumble = new Mumble();
-        Mumble fourthMumble = new Mumble();
+        Mumble firstMumble = new Mumble(this);
+        Mumble secondMumble = new Mumble(this);
+        Mumble thirdMumble = new Mumble(this);
+        Mumble fourthMumble = new Mumble(this);
 
         // four stones for second player
         List<Mumble> playerMumbles = new LinkedList<Mumble>();
@@ -38,13 +38,16 @@ public class Player {
                   final int startPosition,
                   final String playerName) {
 
-
         this.mumbles = mumbles;
         this.cards = cards;
         this.startPosition = startPosition;
         this.playerName = playerName;
         this.playerNumber = playerNumberCounter;
         playerNumberCounter += 1;
+
+        // initialize PlayingField
+        PlayingField.getPlayingField();
+
     }
 
     public void setPlayerName(final String playerName) {

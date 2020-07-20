@@ -80,7 +80,7 @@ public class NumberedCard implements Card {
                                final int steps) {
 
         // current position
-        int currentMumblePosition = player.getMumbles().get(mumble).getCurrentPosition();
+        int currentMumblePosition = player.getMumbles().get(mumble).getPosition();
 
 
         int targetMumblePosition = currentMumblePosition + steps;

@@ -5,7 +5,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         //----------------------------------------------------------------------------//
         // Create two players
         //----------------------------------------------------------------------------//
@@ -24,23 +23,20 @@ public class Main {
         allPlayers.add(firstPlayer);
         allPlayers.add(secondPlayer);
 
-
         //----------------------------------------------------------------------------//
         // TEST: CARDS
         //----------------------------------------------------------------------------//
 
-
-
-        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getCurrentPosition());
-        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getCurrentPosition());
-        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getCurrentPosition());
-        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getCurrentPosition());
+        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getPosition());
+        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getPosition());
+        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getPosition());
+        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getPosition());
         System.out.println("");
 
-        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getCurrentPosition());
-        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getCurrentPosition());
-        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getCurrentPosition());
-        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getCurrentPosition());
+        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getPosition());
+        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getPosition());
+        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getPosition());
+        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getPosition());
         System.out.println("");
 
 
@@ -59,23 +55,23 @@ public class Main {
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
 
 
-        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getCurrentPosition());
-        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getCurrentPosition());
-        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getCurrentPosition());
-        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getCurrentPosition());
+        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getPosition());
+        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getPosition());
+        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getPosition());
+        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getPosition());
         System.out.println("");
 
-        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getCurrentPosition());
-        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getCurrentPosition());
-        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getCurrentPosition());
-        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getCurrentPosition());
+        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getPosition());
+        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getPosition());
+        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getPosition());
+        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getPosition());
         System.out.println("");
 
-
-
-
-
-
+        for(int i = 0; i < 65; i++) {
+            if(PlayingField.getPlayingField().getField(i) != null) {
+                System.out.println(PlayingField.getPlayingField().getField(i).getPosition());
+            }
+        }
 
     }
 }

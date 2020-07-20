@@ -67,7 +67,7 @@ public class NumberedSpecialCard extends NumberedCard {
         // Additional check
         if(AVAILABLE_CARD_NUMBERS.FOUR == this.getCardValue()){
 
-            int currentPosition = player.getMumbles().get(mumble).getCurrentPosition();
+            int currentPosition = player.getMumbles().get(mumble).getPosition();
             int targetPosition = 0;
 
             if((currentPosition - 4) < 1){

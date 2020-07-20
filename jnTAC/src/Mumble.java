@@ -8,24 +8,27 @@ enum PLAYGROUND {
 }
 
 public class Mumble {
+    // to which player does the mumble belong
+    private Player player;
     // current position inside a field
-    private int currentPosition;
+    private int position;
     // current playgroud position
     private PLAYGROUND currentField;
 
-    public Mumble() {
-        this(0, PLAYGROUND.PRE_FIELD);
+    public Mumble(final Player player) {
+        this(player, 0, PLAYGROUND.PRE_FIELD);
     }
 
-    public Mumble(final int startPosition, final PLAYGROUND startField) {
-        this.currentPosition = startPosition;
+    public Mumble(final Player player, final int startPosition, final PLAYGROUND startField) {
+        this.player = player;
+        this.position = startPosition;
         this.currentField = startField;
     }
 
 
     // getter for intPositon
-    public int getCurrentPosition() {
-        return this.currentPosition;
+    public int getPosition() {
+        return this.position;
     }
 
     // getter for playgroundPosition
@@ -34,9 +37,9 @@ public class Mumble {
     }
 
     // setter for intPosition and playgroundPosition
-    private void setCurrentPosition(final int nextPosition,
-                                    final PLAYGROUND nextField) {
-        this.currentPosition = nextPosition;
+    public void setPosition(final int nextPosition,
+                            final PLAYGROUND nextField) {
+        this.position = nextPosition;
         this.currentField = nextField;
     }
 
@@ -48,40 +51,35 @@ public class Mumble {
                            final int targetPosition,
                            final boolean moveClockwise) {
 
+        int startPosition = this.position;
         boolean isOccupied = false;
 
         switch (targetField) {
             case PRE_FIELD:
 
-                // itterate through all players
-                for(int i = 0; i < allPlayers.size(); i++) {
-                    // itterate through all mumbles of a player
-                    for(int n = 0; n < allPlayers.get(i).getMumbles().size(); n++) {
-                        // Check whether position is occupied by same or different player
-                        if(allPlayers.get(i).getMumbles().get(n).currentPosition == targetPosition) {
-                            isOccupied = true;
-                            // Check whether the target position is occupied by own player
-                            if (allPlayers.get(i).equals(player)) {
-                                System.out.println("Can not move, position occupied by own mumble.");
-                            } else {
-                                // If the position is occupied by an other mumble we can replace it with ours.
-                                // Remove mumble from position and move it to the PRE_FIELD
-                                allPlayers.get(i).getMumbles().get(n).setCurrentPosition(0, PLAYGROUND.PRE_FIELD);
-                                // Place own mumble on the target position
-                                this.currentPosition = targetPosition;
-                            }
+                // Check for occupation
+                if(this.isOccupied(targetPosition)) {
+
+                        isOccupied = true;
+                        // Check whether the target position is occupied by own player
+                        if (PlayingField.getPlayingField().getField(targetPosition).player.equals(player)) {
+                            System.out.println("Can not move, position occupied by own mumble.");
+                        } else {
+                            // If the position is occupied by an other mumble we can replace it with ours.
+                            // Remove mumble from position and move it to the PRE_FIELD
+                            // Place own mumble on the target position
+                            PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
                         }
-                    }
                 }
+
 
                 // not occupied by own mumble or by opponent mumble
                 if(!isOccupied){
-                    this.currentPosition = targetPosition;
+                    PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
                 }
 
                 break;
             case START_FIELD:
-
                 int plusOrMinusOne;
                 if(moveClockwise){
                     plusOrMinusOne = 1;
@@ -89,49 +87,42 @@ public class Mumble {
                     plusOrMinusOne = -1;
                 }
 
-                // We have to check whether the complete way is free or not
-                outerLoop:
-                for(int stepsToTargetPosition = (this.currentPosition + 1);
-                        stepsToTargetPosition <= targetPosition;
-                        stepsToTargetPosition = stepsToTargetPosition + plusOrMinusOne) {
+                // We have to check whether the complete road is free.
+                stepsLoop:
+                for(int stepsToTargetPosition = (this.position + 1);
+                    stepsToTargetPosition <= targetPosition;
+                    stepsToTargetPosition = stepsToTargetPosition + plusOrMinusOne) {
 
-                    // itterate through all players
-                    for(int i = 0; i < allPlayers.size(); i++) {
-                        // itterate through all mumbles of a player
-                        for(int n = 0; n < allPlayers.get(i).getMumbles().size(); n++) {
-
-                            // Check whether position is occupied by same or different player
-                            if(allPlayers.get(i).getMumbles().get(n).currentPosition == stepsToTargetPosition) {
-                                // Check whether this position is the target position
-                                if(stepsToTargetPosition == targetPosition){
-                                    // Check whether the target position is occupied by own player
-                                    if (allPlayers.get(i).equals(player)) {
-                                        System.out.println("Can not move, position occupied by own mumble.");
-                                    } else {
-                                        // If the position is occupied by an other mumble we can replace it with ours.
-                                        // Remove mumble from position and move it to the PRE_FIELD
-                                        allPlayers.get(i).getMumbles().get(n).setCurrentPosition(0, PLAYGROUND.PRE_FIELD);
-                                        // Place own mumble on the target position
-                                        this.currentPosition = targetPosition;
-                                    }
-                                // Not the target position but there is something on the road to the target.
-                                } else {
-                                    System.out.println("road blocked @: " + stepsToTargetPosition);
-                                    // The road is blocked. Because something is on the road.
-                                    isOccupied = true;
-                                    // no need to look the other positions since the way is blocked.
-                                    break outerLoop;
-                                }
+                    // Check for occupation
+                    if(this.isOccupied(stepsToTargetPosition)){
+                        // Check whether this position is the target position
+                        if(stepsToTargetPosition == targetPosition){
+                            // Check whether the target position is occupied by own player
+                            if (PlayingField.getPlayingField().getField(stepsToTargetPosition).player.equals(player)) {
+                                System.out.println("Can not move, position occupied by own mumble.");
+                            } else {
+                                // If the position is occupied by an other mumble we can replace it with ours.
+                                // Move the mumble to PRE.FIELD.
+                                // Remove mumble from target position.
+                                // Place own mumble on the target position.
+                                PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
                             }
+                        // Not the target position but there is something on the road to the target.
+                        } else {
+                            System.out.println("road blocked @: " + stepsToTargetPosition);
+                            // The road is blocked. Because something is on the road.
+                            isOccupied = true;
+                            // no need to look the other positions since the way is blocked.
+                            break stepsLoop;
                         }
+
                     }
                 }
 
                 // not occupied by own mumble or by opponent mumble
                 if(!isOccupied){
-                    this.currentPosition = targetPosition;
+                    PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
                 }
-
                 break;
             case HOME_FIELD:
                 break;
@@ -141,24 +132,17 @@ public class Mumble {
         }
     }
 
-
-    public void isOccupied() {
-
-
-
+    public boolean isOccupied(final int positionToCheck) {
+        if(PlayingField.getPlayingField().getField(positionToCheck) != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
-
-
-
-
-
 
     // player has mumbles in PRE_FIELD
     public boolean isMumbleInPreField() {
-
-        if (PLAYGROUND.PRE_FIELD == this.currentField) {
+        if(PLAYGROUND.PRE_FIELD == this.currentField) {
             return true;
         }
         return false;

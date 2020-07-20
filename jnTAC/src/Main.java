@@ -45,6 +45,23 @@ public class Main {
 
         secondPlayer.getCards().get(3).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+
 
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
@@ -53,6 +70,14 @@ public class Main {
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+
+        //firstPlayer.getCards().get(4).playSelectedCard(allPlayers, firstPlayer, 2);
+
+        //secondPlayer.getCards().get(4).playSelectedCard(allPlayers, secondPlayer, 3);
+        //secondPlayer.getCards().get(4).playSelectedCard(allPlayers, secondPlayer, 3);
 
 
         System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getPosition());

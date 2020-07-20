@@ -14,15 +14,18 @@ public class Mumble {
     private int position;
     // current playgroud position
     private PLAYGROUND currentField;
+    // made a turn
+    private boolean roundDone;
 
     public Mumble(final Player player) {
-        this(player, 0, PLAYGROUND.PRE_FIELD);
+        this(player, 0, PLAYGROUND.PRE_FIELD, false);
     }
 
-    public Mumble(final Player player, final int startPosition, final PLAYGROUND startField) {
+    public Mumble(final Player player, final int startPosition, final PLAYGROUND startField, final boolean roundDone) {
         this.player = player;
         this.position = startPosition;
         this.currentField = startField;
+        this.roundDone = roundDone;
     }
 
 
@@ -72,7 +75,6 @@ public class Mumble {
                         }
                 }
 
-
                 // not occupied by own mumble or by opponent mumble
                 if(!isOccupied){
                     PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
@@ -80,6 +82,7 @@ public class Mumble {
 
                 break;
             case START_FIELD:
+
                 int plusOrMinusOne;
                 if(moveClockwise){
                     plusOrMinusOne = 1;
@@ -88,10 +91,13 @@ public class Mumble {
                 }
 
                 // We have to check whether the complete road is free.
-                stepsLoop:
-                for(int stepsToTargetPosition = (this.position + 1);
-                    stepsToTargetPosition <= targetPosition;
-                    stepsToTargetPosition = stepsToTargetPosition + plusOrMinusOne) {
+                //for(int stepsToTargetPosition = (this.position + plusOrMinusOne);
+                 //   stepsToTargetPosition <= targetPosition;
+                  //  stepsToTargetPosition = (stepsToTargetPosition + plusOrMinusOne))
+                //
+                int stepsToTargetPosition = (this.position + plusOrMinusOne);
+                while(Math.abs(stepsToTargetPosition - targetPosition) > 0){
+                    System.out.println("steps" + stepsToTargetPosition);
 
                     // Check for occupation
                     if(this.isOccupied(stepsToTargetPosition)){
@@ -113,10 +119,10 @@ public class Mumble {
                             // The road is blocked. Because something is on the road.
                             isOccupied = true;
                             // no need to look the other positions since the way is blocked.
-                            break stepsLoop;
+                            break;
                         }
-
                     }
+                    stepsToTargetPosition = stepsToTargetPosition + plusOrMinusOne;
                 }
 
                 // not occupied by own mumble or by opponent mumble

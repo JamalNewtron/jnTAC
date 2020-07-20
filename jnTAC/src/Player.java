@@ -92,7 +92,7 @@ public class Player {
         playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.THREE));
         playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.FIVE));
         playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.ONE));
-        playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.SEVEN));
+        playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.FOUR));
 
         this.cards = playerCards;
 

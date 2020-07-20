@@ -1,3 +1,4 @@
+import javax.sound.midi.Soundbank;
 import java.util.List;
 
 public class NumberedSpecialCard extends NumberedCard {
@@ -12,8 +13,8 @@ public class NumberedSpecialCard extends NumberedCard {
                                  final int mumble) {
 
         switch (this.getCardValue()){
-
             case ONE:
+                //this.moveToPosition(allPlayers, player, mumble, 1);
                 this.bringMumbleIntoPlay(allPlayers, player, mumble);
                 break;
             case FOUR:
@@ -24,6 +25,8 @@ public class NumberedSpecialCard extends NumberedCard {
             case EIGHT:
                 break;
             case THIRTEEN:
+                //this.moveToPosition(allPlayers, player, mumble, 13);
+                this.bringMumbleIntoPlay(allPlayers, player, mumble);
                 break;
             default:
                 System.out.println("default playSelectedCard");
@@ -41,7 +44,6 @@ public class NumberedSpecialCard extends NumberedCard {
 
         // Is the selected mumble in the PRE_FIELD of the player?
         if(player.getMumbles().get(mumble).isMumbleInPreField()){
-
             // Check whether card equals card 1 or 13
             // todo: angle card
             if(AVAILABLE_CARD_NUMBERS.ONE == this.getCardValue() ||
@@ -73,8 +75,11 @@ public class NumberedSpecialCard extends NumberedCard {
             if((currentPosition - 4) < 1){
                 targetPosition = targetPosition - 4 + 64;
             } else {
-                targetPosition = targetPosition - 4;
+                targetPosition = currentPosition - 4;
             }
+
+            System.out.println("current " + currentPosition);
+            System.out.println("targe " + targetPosition);
 
             player.getMumbles().get(mumble).moveMumble(
                     allPlayers,

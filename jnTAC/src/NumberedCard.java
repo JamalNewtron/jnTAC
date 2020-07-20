@@ -90,15 +90,17 @@ public class NumberedCard implements Card {
         System.out.println(player.getPlayerName()+  ", target: " + targetMumblePosition);;
 
         // Mumble enters HOME_FIELD or returns to new cycle
-        if(targetMumblePosition > 65 && targetMumblePosition < 70) {
+
+        if(targetMumblePosition < 65){
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
+        } else if(targetMumblePosition == 65){
+            System.out.println("i am here");
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, 1, true);
+        } else if(targetMumblePosition > 65 && targetMumblePosition < 70){
             player.getMumbles().get(mumble).moveMumble(allPlayers,player, PLAYGROUND.HOME_FIELD, targetMumblePosition, true);
         } else if(targetMumblePosition > 69){
             targetMumblePosition = targetMumblePosition - 64;
             player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
-        } else {
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
         }
-
     }
-
 }

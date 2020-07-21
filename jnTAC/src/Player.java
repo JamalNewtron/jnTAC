@@ -4,7 +4,7 @@ import java.util.List;
 public class Player {
     private List<Mumble> mumbles;
     private List<Card> cards;
-    private List<Mumble> homeField;
+    private DataStructure<Mumble> homeField;
     private int startPosition;
     private String playerName;
     private int playerNumber;
@@ -32,16 +32,16 @@ public class Player {
 
         this.mumbles = playerMumbles;
 
-        this.homeField = new LinkedList<>();
+        this.homeField = new DataStructure<Mumble>();
         for(int i = 0; i < 4; i++) {
-            this.homeField.add(null);
+            this.homeField.add(null, this);
         }
 
     }
 
     public Player(final List<Mumble> mumbles,
                   final List<Card> cards,
-                  final List<Mumble> homeField,
+                  final DataStructure<Mumble> homeField,
                   final int startPosition,
                   final String playerName) {
 
@@ -52,10 +52,6 @@ public class Player {
         this.playerName = playerName;
         this.playerNumber = playerNumberCounter;
         playerNumberCounter += 1;
-
-        // initialize PlayingField
-        PlayingField.getPlayingField();
-
     }
 
     public void setPlayerName(final String playerName) {

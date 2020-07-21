@@ -4,20 +4,32 @@ import java.util.List;
 public class PlayingField {
 
     private static PlayingField playingField;
-    private List<Mumble> field;
+    private DataStructure<Mumble> field;
+    private List<Player> allPlayers;
 
-    private PlayingField(){
+    private PlayingField(List<Player> allPlayers){
+        this.field = new DataStructure<>();
+        this.allPlayers = allPlayers;
+
         // first element Mumble[0] is should not be used.
-        this.field = new LinkedList<Mumble>();
         for(int i = 0; i < 65; i++) {
             this.field.add(null);
+        }
+
+        // add player object to available players
+        for(int i = 0; i < allPlayers.size(); i++){
+            this.field.set(allPlayers.get(i).getStartPosition(), null, allPlayers.get(i));
         }
     }
 
     public static PlayingField getPlayingField() {
+        return getPlayingField(null);
+    }
+
+    public static PlayingField getPlayingField(List<Player> allPlayers) {
 
         if(PlayingField.playingField == null){
-            PlayingField.playingField = new PlayingField();
+            PlayingField.playingField = new PlayingField(allPlayers);
         }
         return PlayingField.playingField;
     }
@@ -33,7 +45,7 @@ public class PlayingField {
             this.field.get(position).setPosition(0, PLAYGROUND.PRE_FIELD);
             this.field.set(position, null);
         } else {
-            System.out.println("field@ " + position + " already empty.");
+            System.out.println("field@ " + position + " is empty.");
         }
     }
 

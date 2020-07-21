@@ -16,12 +16,16 @@ public class Main {
         firstPlayer.drawCards();
         secondPlayer.drawCards();
 
+
         // list of all players
         List<Player> allPlayers = new LinkedList<Player>();
 
         // add player to the players list
         allPlayers.add(firstPlayer);
         allPlayers.add(secondPlayer);
+
+        // initialize PlayingField
+        PlayingField.getPlayingField(allPlayers);
 
         //----------------------------------------------------------------------------//
         // TEST: CARDS
@@ -47,6 +51,9 @@ public class Main {
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
 
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
+        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
@@ -95,9 +102,7 @@ public class Main {
             }
         }
 
-
-
-        DataStructure<Mumble> test = new DataStructure<>();
+        DataStructure<Mumble> test = new DataStructure<Mumble>();
 
         test.add(new Mumble(firstPlayer, 6, PLAYGROUND.START_FIELD, true));
         test.add(new Mumble(firstPlayer, 2, PLAYGROUND.START_FIELD, true));

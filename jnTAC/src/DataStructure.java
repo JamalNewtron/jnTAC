@@ -35,6 +35,7 @@ public class DataStructure<AnyType> {
 
     // head node
     private ListNode<AnyType> start;
+    private ListNode<AnyType> nodeOne;
     private ListNode<AnyType> end;
     // Helper, keeping track of size.
     private int size;
@@ -42,13 +43,18 @@ public class DataStructure<AnyType> {
 
     public DataStructure() {
         this.start = null;
+        this.nodeOne = null;
         this.end = null;
         this.size = 0;
     }
 
     public void add(AnyType data) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data);
+            this.start = new ListNode<AnyType>(data, null, null, null, null);
+            this.size++;
+        } else if(this.size == 1){
+            this.nodeOne = new ListNode<AnyType>(data, null, null, this.start, null);
+            this.start.next = this.nodeOne;
             this.size++;
         } else {
             this.add(data, null);
@@ -57,23 +63,25 @@ public class DataStructure<AnyType> {
 
     public void add(AnyType data, Player player) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data);
+            this.start = new ListNode<AnyType>(data, player, null, null, null);
+            this.size++;
+        } else if(this.size == 1){
+            this.nodeOne = new ListNode<AnyType>(data, player, null, this.start, null);
+            this.start.next = this.nodeOne;
             this.size++;
         } else {
-            this.add(this.start, data, player);
+            this.add(this.nodeOne, data, player);
         }
     }
 
     private void add(ListNode<AnyType> current, AnyType data, Player player){
-        // If there is no next Node, we can place our new Node there
-        System.out.println("hier");
-        if(current == this.end) {
-            System.out.println();
-            // The next pointer of the current node directs to the new  Node and the new directs with its prev pointer
-            // to the current node
-            current.next = new ListNode<AnyType>(data, player, this.start, this.end, null);
-            // since current.next is the new last node we can update the end
+        // if there is no next node or the next node is the start -> place the next node
+        if(current.next == null || current.next == this.nodeOne) {
+            current.next = new ListNode<AnyType>(data, player, this.nodeOne, current, null);
+            // newest node is end
             this.end = current.next;
+            // nodeOne has to take the new node as previous node.
+            this.nodeOne.prev = current.next;
             this.size++;
         } else {
             this.add(current.next, data, player);
@@ -93,8 +101,9 @@ public class DataStructure<AnyType> {
             current.data = data;
             current.player = player;
         }
-        if(current.next == null) {
 
+        if(current.next == null || current == this.end) {
+            return;
         } else {
             set(index, data, current.next, player, startIndex + 1);
         }
@@ -109,10 +118,10 @@ public class DataStructure<AnyType> {
             return current.data;
         }
 
-        if(current.next == null){
+        if(current.next == null || current == this.end){
             return null;
         }
-        return get(current.next, index, startIndex + 1);
+        return this.get(current.next, index, startIndex + 1);
     }
 
     public void clear(int index) {

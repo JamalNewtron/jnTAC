@@ -9,6 +9,16 @@ public class Main {
         // Create two players
         //----------------------------------------------------------------------------//
 
+        DataStructure<Integer> test = new DataStructure<Integer>();
+
+        for(int i = 0; i < 100; i++){
+            test.add(i);
+        }
+
+        for(int i = 0; i < test.size(); i++) {
+            System.out.println("test: " + test.get(i));
+        }
+
         // create two player objects
         Player firstPlayer = new Player(null, 1,"Player ONE");
         Player secondPlayer = new Player(null, 17,"Player TWO");
@@ -74,9 +84,9 @@ public class Main {
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
-        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
-        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
-        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        //firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        //firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        //firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
 
         //firstPlayer.getCards().get(4).playSelectedCard(allPlayers, firstPlayer, 2);
 
@@ -102,21 +112,21 @@ public class Main {
             }
         }
 
-        DataStructure<Mumble> test = new DataStructure<Mumble>();
+        DataStructure<Mumble> asdf = new DataStructure<Mumble>();
 
-        test.add(new Mumble(firstPlayer, 6, PLAYGROUND.START_FIELD, true));
-        test.add(new Mumble(firstPlayer, 2, PLAYGROUND.START_FIELD, true));
-        test.add(new Mumble(firstPlayer, 45, PLAYGROUND.START_FIELD, true));
+        asdf.add(new Mumble(firstPlayer, 6, PLAYGROUND.START_FIELD, true));
+        asdf.add(new Mumble(firstPlayer, 2, PLAYGROUND.START_FIELD, true));
+        asdf.add(new Mumble(firstPlayer, 45, PLAYGROUND.START_FIELD, true));
 
-        System.out.println("my own structure: " + test.get(0).getPosition());
-        System.out.println("my own structure: " + test.get(1).getPosition());
-        System.out.println("my own structure: " + test.get(2).getPosition());
+        System.out.println("my own structure: " + asdf.get(0).getPosition());
+        System.out.println("my own structure: " + asdf.get(1).getPosition());
+        System.out.println("my own structure: " + asdf.get(2).getPosition());
 
-        test.set(1, new Mumble(firstPlayer, 234, PLAYGROUND.START_FIELD, true));
+        asdf.set(1, new Mumble(firstPlayer, 234, PLAYGROUND.START_FIELD, true));
 
-        System.out.println("my own structure: " + test.get(0).getPosition());
-        System.out.println("my own structure: " + test.get(1).getPosition());
-        System.out.println("my own structure: " + test.get(2).getPosition());
+        System.out.println("my own structure: " + asdf.get(0).getPosition());
+        System.out.println("my own structure: " + asdf.get(1).getPosition());
+        System.out.println("my own structure: " + asdf.get(2).getPosition());
 
 
 

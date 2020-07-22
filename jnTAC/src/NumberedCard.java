@@ -34,6 +34,30 @@ public class NumberedCard implements Card {
     }
 
     @Override
+    public String getCardName() {
+        switch (this.cardValue){
+            case TWO:
+                return "2";
+            case THREE:
+                return "3";
+            case FIVE:
+                return "5";
+            case SIX:
+                return "6";
+            case NINE:
+                return "9";
+            case TEN:
+                return "10";
+            case ELEVEN:
+                return "11";
+            case TWELVE:
+                return "12";
+            default:
+                return "NumberedCard";
+        }
+    }
+
+    @Override
     public void playSelectedCard(final List<Player> allPlayers,
                                  final Player player,
                                  final int mumble) {
@@ -41,28 +65,28 @@ public class NumberedCard implements Card {
         switch (this.cardValue){
 
             case TWO:
-                this.moveToPosition(allPlayers, player, mumble, 2);
+                this.calculateTargetPosition(allPlayers, player, mumble, 2);
                 break;
             case THREE:
-                this.moveToPosition(allPlayers, player, mumble, 3);
+                this.calculateTargetPosition(allPlayers, player, mumble, 3);
                 break;
             case FIVE:
-                this.moveToPosition(allPlayers, player, mumble, 5);
+                this.calculateTargetPosition(allPlayers, player, mumble, 5);
                 break;
             case SIX:
-                this.moveToPosition(allPlayers, player, mumble, 6);
+                this.calculateTargetPosition(allPlayers, player, mumble, 6);
                 break;
             case NINE:
-                this.moveToPosition(allPlayers, player, mumble, 9);
+                this.calculateTargetPosition(allPlayers, player, mumble, 9);
                 break;
             case TEN:
-                this.moveToPosition(allPlayers, player, mumble, 10);
+                this.calculateTargetPosition(allPlayers, player, mumble, 10);
                 break;
             case ELEVEN:
-                this.moveToPosition(allPlayers, player, mumble, 11);
+                this.calculateTargetPosition(allPlayers, player, mumble, 11);
                 break;
             case TWELVE:
-                this.moveToPosition(allPlayers, player, mumble, 12);
+                this.calculateTargetPosition(allPlayers, player, mumble, 12);
                 break;
             default:
                 System.out.println("default playSelectedCard");
@@ -73,17 +97,23 @@ public class NumberedCard implements Card {
 
 
 
+
     // move to x position from y position
-    public void moveToPosition(final List<Player> allPlayers,
-                               final Player player,
-                               final int mumble,
-                               final int steps) {
+    public void calculateTargetPosition(final List<Player> allPlayers,
+                                        final Player player,
+                                        final int mumble,
+                                        final int steps) {
 
         // current position
         int currentMumblePosition = player.getMumbles().get(mumble).getPosition();
 
+        int tempCurrentMumblePosition = currentMumblePosition - player.getStartPosition();
+        if(tempCurrentMumblePosition < 0) {
+            tempCurrentMumblePosition += 64;
+        }
 
         int targetMumblePosition = currentMumblePosition + steps;
+
         System.out.println(player.getPlayerName()+  ", mumble: " + mumble);
         System.out.println(player.getPlayerName()+  ", start: " + currentMumblePosition);
         System.out.println(player.getPlayerName()+  ", steps: " + steps);
@@ -91,15 +121,22 @@ public class NumberedCard implements Card {
 
         // Mumble enters HOME_FIELD or returns to new cycle
 
-        if(targetMumblePosition < 65){
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
-        } else if(targetMumblePosition == 65){
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, 1, true);
-        } else if(targetMumblePosition > 65 && targetMumblePosition < 70){
-            player.getMumbles().get(mumble).moveMumble(allPlayers,player, PLAYGROUND.HOME_FIELD, targetMumblePosition, true);
-        } else if(targetMumblePosition > 69){
+        // 0 bis 63 erlaubt
+        if(tempCurrentMumblePosition <= 63){
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this , true);
+
+        // positions  63
+        } else if(targetMumblePosition == 64){
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this, true);
+
+        // could land in the
+        } else if(targetMumblePosition > 64 && targetMumblePosition < 69){
+            player.getMumbles().get(mumble).moveMumble(allPlayers,player, PLAYGROUND.HOME_FIELD, targetMumblePosition, this, true);
+
+        //
+        } else if(targetMumblePosition > 68){
             targetMumblePosition = targetMumblePosition - 64;
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, true);
+            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this, true);
         }
     }
 }

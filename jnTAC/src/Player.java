@@ -62,6 +62,10 @@ public class Player {
         this.playerNumber = intPlayerNumber;
     }
 
+    public void setHomeField(final DataStructure<Mumble> homeField) {
+        this.homeField = homeField;
+    }
+
     public List<Mumble> getMumbles() {
         return this.mumbles;
     }
@@ -82,6 +86,10 @@ public class Player {
         return this.startPosition;
     }
 
+    public DataStructure<Mumble> getHomeField() {
+        return this.homeField;
+    }
+
 
     public void drawCards() {
 
@@ -100,6 +108,15 @@ public class Player {
 
         this.cards = playerCards;
 
+    }
+
+    // After the use of a card the player has to place the card on to the discard pile
+    public void discardCard(final Player player, final int index) {
+        this.cards.remove(index);
+    }
+
+    public void discardCard(final Card card){
+        this.cards.remove(card);
     }
 
 

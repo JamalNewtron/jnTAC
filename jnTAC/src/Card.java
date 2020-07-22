@@ -6,4 +6,6 @@ public interface Card {
                                  final Player player,
                                  final int mumble);
 
+    public String getCardName();
+
 }

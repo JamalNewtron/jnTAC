@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -9,19 +10,15 @@ public class Main {
         // Create two players
         //----------------------------------------------------------------------------//
 
-        DataStructure<Integer> test = new DataStructure<Integer>();
-
-        for(int i = 0; i < 100; i++){
-            test.add(i);
-        }
-
-        for(int i = 0; i < test.size(); i++) {
-            System.out.println("test: " + test.get(i));
-        }
+        // Start positions
+        //  START1 = 1	    0
+        //  START2 = 17	    16
+        //  START3 = 33	    32
+        //  START4 = 49	    48
 
         // create two player objects
-        Player firstPlayer = new Player(null, 1,"Player ONE");
-        Player secondPlayer = new Player(null, 17,"Player TWO");
+        Player firstPlayer = new Player(null, 0,"Player ONE");
+        Player secondPlayer = new Player(null, 16,"Player TWO");
 
         firstPlayer.drawCards();
         secondPlayer.drawCards();
@@ -40,18 +37,52 @@ public class Main {
         //----------------------------------------------------------------------------//
         // TEST: CARDS
         //----------------------------------------------------------------------------//
+        Scanner in = new Scanner(System.in);
+        String userInput = new String("");
 
-        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getPosition());
-        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getPosition());
-        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getPosition());
-        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getPosition());
-        System.out.println("");
+        boolean continueGame = true;
+        while(continueGame) {
 
-        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getPosition());
-        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getPosition());
-        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getPosition());
-        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getPosition());
-        System.out.println("");
+            for(int i = 0; i < allPlayers.size(); i++) {
+                for(int n = 0; n < allPlayers.get(i).getCards().size(); n++){
+                    System.out.println("Player: "
+                            + allPlayers.get(i).getPlayerNumber()
+                            + ", card: "
+                            + allPlayers.get(i).getCards().get(n).getCardName());
+                }
+                System.out.println("");
+            }
+
+            for(int i = 0; i < allPlayers.size(); i++) {
+                for(int n = 0; n < allPlayers.get(i).getMumbles().size(); n++){
+                    System.out.println("Player: "
+                            + allPlayers.get(i).getPlayerNumber()
+                            + ", mumble @ : "
+                            + allPlayers.get(i).getMumbles().get(n).getPosition());
+                }
+                System.out.println("");
+            }
+
+            System.out.println("Player1: Which card do you want to play?");
+            String useCard = in.nextLine();
+            System.out.println("Player1: Which mumble to use?");
+            String useMumble = in.nextLine();
+
+            allPlayers.get(0).getCards().get(Integer.parseInt(useCard)).playSelectedCard(allPlayers, allPlayers.get(0), Integer.parseInt(useMumble));
+
+
+
+
+            System.out.println("Do you want to play next round?");
+            userInput = in.nextLine();
+            if(userInput.equals("y") || userInput.equals("yes")){
+                continueGame = true;
+            } else {
+                continueGame = false;
+            }
+        }
+
+
 
 
         firstPlayer.getCards().get(3).playSelectedCard(allPlayers, firstPlayer, 2);
@@ -61,21 +92,6 @@ public class Main {
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
         secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
 
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-        secondPlayer.getCards().get(1).playSelectedCard(allPlayers, secondPlayer, 3);
-
-
 
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
@@ -84,9 +100,9 @@ public class Main {
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
         firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
-        //firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
-        //firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
-        //firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
+        firstPlayer.getCards().get(1).playSelectedCard(allPlayers, firstPlayer, 2);
 
         //firstPlayer.getCards().get(4).playSelectedCard(allPlayers, firstPlayer, 2);
 

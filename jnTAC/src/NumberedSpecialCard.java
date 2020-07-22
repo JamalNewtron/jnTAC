@@ -8,6 +8,23 @@ public class NumberedSpecialCard extends NumberedCard {
         super(cardValue);
     }
 
+    public String getCardName() {
+        switch (this.getCardValue()){
+            case ONE:
+                return "1";
+            case FOUR:
+                return "4";
+            case SEVEN:
+                return "7";
+            case EIGHT:
+                return "8";
+            case THIRTEEN:
+                return "13";
+            default:
+                return "NumberedSpecialCard";
+        }
+    }
+
     public void playSelectedCard(final List<Player> allPlayers,
                                  final Player player,
                                  final int mumble) {
@@ -31,7 +48,6 @@ public class NumberedSpecialCard extends NumberedCard {
             default:
                 System.out.println("default playSelectedCard");
                 break;
-
         }
     }
 
@@ -54,6 +70,7 @@ public class NumberedSpecialCard extends NumberedCard {
                         player,
                         PLAYGROUND.PRE_FIELD,
                         player.getStartPosition(),
+                        this,
                         true);
             } else {
                 System.out.println("not 1 or 13");
@@ -69,23 +86,12 @@ public class NumberedSpecialCard extends NumberedCard {
         // Additional check
         if(AVAILABLE_CARD_NUMBERS.FOUR == this.getCardValue()){
 
-            int currentPosition = player.getMumbles().get(mumble).getPosition();
-            int targetPosition = 0;
-
-            if((currentPosition - 4) < 1){
-                targetPosition = targetPosition - 4 + 64;
-            } else {
-                targetPosition = currentPosition - 4;
-            }
-
-            System.out.println("current " + currentPosition);
-            System.out.println("targe " + targetPosition);
-
             player.getMumbles().get(mumble).moveMumble(
                     allPlayers,
                     player,
                     PLAYGROUND.START_FIELD,
-                    targetPosition,
+                    4,
+                    this,
                     false);
         }
     }

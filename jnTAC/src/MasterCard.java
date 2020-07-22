@@ -9,5 +9,10 @@ public class MasterCard implements Card{
 
     }
 
+    @Override
+    public String getCardName() {
+        return null;
+    }
+
 
 }

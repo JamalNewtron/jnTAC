@@ -35,7 +35,6 @@ public class DataStructure<AnyType> {
 
     // head node
     private ListNode<AnyType> start;
-    private ListNode<AnyType> nodeOne;
     private ListNode<AnyType> end;
     // Helper, keeping track of size.
     private int size;
@@ -43,18 +42,29 @@ public class DataStructure<AnyType> {
 
     public DataStructure() {
         this.start = null;
-        this.nodeOne = null;
         this.end = null;
         this.size = 0;
+    }
+
+    public ListNode<AnyType> getStart() {
+        return start;
+    }
+
+    public void setStart(ListNode<AnyType> start) {
+        this.start = start;
+    }
+
+    public ListNode<AnyType> getEnd() {
+        return end;
+    }
+
+    public void setEnd(ListNode<AnyType> end) {
+        this.end = end;
     }
 
     public void add(AnyType data) {
         if(isEmpty()){
             this.start = new ListNode<AnyType>(data, null, null, null, null);
-            this.size++;
-        } else if(this.size == 1){
-            this.nodeOne = new ListNode<AnyType>(data, null, null, this.start, null);
-            this.start.next = this.nodeOne;
             this.size++;
         } else {
             this.add(data, null);
@@ -65,23 +75,19 @@ public class DataStructure<AnyType> {
         if(isEmpty()){
             this.start = new ListNode<AnyType>(data, player, null, null, null);
             this.size++;
-        } else if(this.size == 1){
-            this.nodeOne = new ListNode<AnyType>(data, player, null, this.start, null);
-            this.start.next = this.nodeOne;
-            this.size++;
         } else {
-            this.add(this.nodeOne, data, player);
+            this.add(this.start, data, player);
         }
     }
 
     private void add(ListNode<AnyType> current, AnyType data, Player player){
         // if there is no next node or the next node is the start -> place the next node
-        if(current.next == null || current.next == this.nodeOne) {
-            current.next = new ListNode<AnyType>(data, player, this.nodeOne, current, null);
+        if(current.next == null || current.next == this.start) {
+            current.next = new ListNode<AnyType>(data, player, this.start, current, null);
             // newest node is end
             this.end = current.next;
             // nodeOne has to take the new node as previous node.
-            this.nodeOne.prev = current.next;
+            // this.nodeOne.prev = current;
             this.size++;
         } else {
             this.add(current.next, data, player);
@@ -96,8 +102,8 @@ public class DataStructure<AnyType> {
         this.set(index, data, this.start, player, 0);
     }
 
-    private void set(int index, AnyType data ,ListNode<AnyType> current, Player player, int startIndex) {
-        if(index == startIndex){
+    private void set(int index, AnyType data, ListNode<AnyType> current, Player player, int incrementalIndex) {
+        if(index == incrementalIndex){
             current.data = data;
             current.player = player;
         }
@@ -105,37 +111,73 @@ public class DataStructure<AnyType> {
         if(current.next == null || current == this.end) {
             return;
         } else {
-            set(index, data, current.next, player, startIndex + 1);
+            set(index, data, current.next, player, incrementalIndex + 1);
         }
     }
+
+    public void setBranch(int index, ListNode<AnyType> branch) {
+        this.setBranch(index, this.start, branch, 0);
+    }
+
+    private void setBranch(int index, ListNode<AnyType> current, ListNode<AnyType> branch, int incrementalIndex) {
+        if(index == incrementalIndex) {
+            current.branch = branch;
+        }
+
+        if(current.next == null || current == this.end) {
+
+        } else {
+            this.setBranch(index, current.next, branch, incrementalIndex + 1);
+        }
+
+    }
+
+
 
     public AnyType get(int index) {
         return this.get(this.start, index, 0);
     }
 
-    private AnyType get(ListNode<AnyType> current, int index, int startIndex ) {
-        if(index == startIndex){
+    private AnyType get(ListNode<AnyType> current, int index, int incrementalIndex) {
+        if(index == incrementalIndex){
             return current.data;
         }
 
         if(current.next == null || current == this.end){
             return null;
         }
-        return this.get(current.next, index, startIndex + 1);
+        return this.get(current.next, index, incrementalIndex + 1);
     }
+
+
+
+    public ListNode<AnyType> getNode(final AnyType data){
+        return this.getNode(this.start, data);
+    }
+
+    private ListNode<AnyType> getNode(final ListNode<AnyType> current, final AnyType data){
+        if(current.data.equals(data)) {
+            return current;
+        }
+        if(current.next == null || current.next == this.start){
+            return null;
+        }
+        return this.getNode(current.next, data);
+    }
+
 
     public void clear(int index) {
         this.clear(this.start, index, 0);
     }
 
-    private void clear(ListNode<AnyType> current, int index, int startIndex) {
-        if(index == startIndex) {
+    private void clear(ListNode<AnyType> current, int index, int incrementalIndex) {
+        if(index == incrementalIndex) {
             current.data = null;
         }
         if(current.next == null){
             return;
         }
-        this.clear(current.next, index, startIndex + 1);
+        this.clear(current.next, index, incrementalIndex + 1);
     }
 
 

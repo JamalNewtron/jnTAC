@@ -11,15 +11,20 @@ public class PlayingField {
         this.field = new DataStructure<>();
         this.allPlayers = allPlayers;
 
-        // first element Mumble[0] is should not be used.
-        for(int i = 0; i < 65; i++) {
+        // first slot is position 0
+        for(int i = 0; i < 64; i++) {
             this.field.add(null);
         }
 
-        // add player object to available players
-        for(int i = 0; i < allPlayers.size(); i++){
+        // player specific modifications
+        for(int i = 0; i < allPlayers.size(); i++) {
+            // mark the players start position with the player
             this.field.set(allPlayers.get(i).getStartPosition(), null, allPlayers.get(i));
+
+            // field element points with its branch node towards the players home field start
+            this.field.setBranch(i, allPlayers.get(i).getHomeField().getStart());
         }
+
     }
 
     public static PlayingField getPlayingField() {
@@ -27,7 +32,6 @@ public class PlayingField {
     }
 
     public static PlayingField getPlayingField(List<Player> allPlayers) {
-
         if(PlayingField.playingField == null){
             PlayingField.playingField = new PlayingField(allPlayers);
         }
@@ -64,4 +68,52 @@ public class PlayingField {
         // Remove entry at start slot.
         this.field.set(startPosition, null);
     }
+
+    public void check(final int steps,
+                      final Mumble mumble,
+                      final boolean moveClockwise){
+
+        this.check(this.field.getNode(mumble).next, steps, mumble, 0, moveClockwise);
+    }
+
+    private void check(final ListNode<Mumble> current,
+                       final int steps,
+                       final Mumble mumble,
+                       final int incrementalIndex,
+                       final boolean moveClockwise) {
+
+
+        if(moveClockwise){
+            if(current.data != null){
+                System.out.println("besetzt");
+                if(steps == incrementalIndex) {
+                    System.out.println("besetzt und Ziel");
+                    if()
+                }
+
+            } else {
+                System.out.println("unbesetzt");
+                if(steps == incrementalIndex) {
+                    System.out.println("unbesetzt und Ziel");
+                }
+            }
+        } else {
+
+            if(this.field.getNode(mumble).data != null){
+                System.out.println("besetzt");
+                if(steps == incrementalIndex) {
+                    System.out.println("besetzt und Ziel");
+                    if()
+                }
+            } else {
+                System.out.println("unbesetzt");
+                if(steps == incrementalIndex) {
+                    System.out.println("unbesetzt und Ziel");
+                }
+            }
+        }
+
+        this.check(current.next, steps, mumble, incrementalIndex + 1, moveClockwise);
+    }
+
 }

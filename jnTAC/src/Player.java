@@ -34,7 +34,7 @@ public class Player {
 
         this.homeField = new DataStructure<Mumble>();
         for(int i = 0; i < 4; i++) {
-            this.homeField.add(null, this);
+            this.homeField.add(null, PLAYGROUND.HOME_FIELD, this);
         }
 
     }

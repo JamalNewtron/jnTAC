@@ -29,6 +29,10 @@ public class Mumble {
         this.roundDone = roundDone;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
 
     // getter for intPositon
     public int getPosition() {
@@ -58,97 +62,63 @@ public class Mumble {
         Scanner in = new Scanner(System.in);
 
         String userInput;
-        int tempSteps = steps;
         int startPosition = this.position;
         boolean isOccupied = false;
+        FieldResult temp;
 
         switch (targetField) {
             case PRE_FIELD:
 
-                // Check for occupation
-                if(this.isOccupied(targetPosition)) {
+                temp = PlayingField.getPlayingField().checkStartposition(player, this);
 
-                        isOccupied = true;
-                        // Check whether the target position is occupied by own player
-                        if (PlayingField.getPlayingField().getField(targetPosition).player.equals(player)) {
-                            System.out.println("Can not move, position occupied by own mumble.");
-                        } else {
-                            System.out.println("Can not move, position occupied by opponent mumble.");
-                            // If the position is occupied by an opponent mumble we can replace it with ours.
-                            // Remove opponent mumble from position and move it to the PRE_FIELD
-                            // Place own mumble on the target position
-                            PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
-                        }
-                }
 
-                // not occupied by any mumble
-                if(!isOccupied){
-                    System.out.println("position is free, do you want to place the mumble there?");
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED) {
+                    System.out.println("Do you really want to placcceee?");
                     userInput = in.nextLine();
-                    if(userInput.equals("y") || userInput.equals("yes") || userInput.equals("Y") || userInput.equals("YES")) {
-                        PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
+                    if(userInput.equals("y") || userInput.equals("yes")) {
+                        PlayingField.getPlayingField().placeMumble(temp, this);
                         player.discardCard(card);
                     }
+                }
+
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                    System.out.println("Do you really want to placcceee?");
+                    userInput = in.nextLine();
+                    if(userInput.equals("y") || userInput.equals("yes")) {
+                        // send old mumble into pre field
+
+
+
+                        // place mumble to target
+                        PlayingField.getPlayingField().throwMumble(temp, this);
+
+
+                        // remove mumble from own pre field
+
+
+                        player.discardCard(card);
+                    }
+                }
+
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
+                    System.out.println("occupied by yourself");
                 }
 
                 break;
             case START_FIELD:
+                temp = PlayingField.getPlayingField().checkMove(steps, this, moveClockwise);
 
-                int plusOrMinusOne;
-                if(moveClockwise){
-                    plusOrMinusOne = 1;
-                } else {
-                    plusOrMinusOne = -1;
-                }
-
-                // We have to check whether the complete road is free.
-                //for(int stepsToTargetPosition = (this.position + plusOrMinusOne);
-                 //   stepsToTargetPosition <= targetPosition;
-                  //  stepsToTargetPosition = (stepsToTargetPosition + plusOrMinusOne))
-                int stepsToTargetPosition = (this.position + plusOrMinusOne);
-                while(tempSteps-- > 0){
-                    System.out.println("step " + stepsToTargetPosition);
-
-                    // Check for occupation
-                    if(this.isOccupied(stepsToTargetPosition)){
-                        // Check whether this position is the target position
-                        if(tempSteps == 0){
-                            // Check whether the target position is occupied by own player
-                            if (PlayingField.getPlayingField().getField(stepsToTargetPosition).player.equals(player)) {
-                                System.out.println("Can not move, position occupied by own mumble.");
-                            } else {
-                                // If the position is occupied by an other mumble we can replace it with ours.
-                                // Move the mumble to PRE.FIELD.
-                                // Remove mumble from target position.
-                                // Place own mumble on the target position.
-                                System.out.println("Position is occupied by an opponent mumble, do you want to kick?");
-                                userInput = in.nextLine();
-                                if(userInput.equals("y") || userInput.equals("yes")) {
-                                    PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
-                                    player.discardCard(card);
-                                }
-                            }
-                        // Not the target position but there is something on the road to the target.
-                        } else {
-                            System.out.println("road blocked @: " + stepsToTargetPosition);
-                            // The road is blocked. Because something is on the road.
-                            isOccupied = true;
-                            // no need to look the other positions since the way is blocked.
-                            break;
-                        }
-                    }
-                    stepsToTargetPosition = stepsToTargetPosition + plusOrMinusOne;
-                }
-
-                // not occupied by own mumble or by opponent mumble
-                if(!isOccupied){
-                    System.out.println("position is free, do you want to place the mumble there?");
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED
+                        || temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF
+                        || temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                    System.out.println("Do you really want to place?");
                     userInput = in.nextLine();
                     if(userInput.equals("y") || userInput.equals("yes")) {
-                        PlayingField.getPlayingField().placeMumbleIntoField(startPosition, targetPosition, this);
+                        PlayingField.getPlayingField().throwMumble(temp, this);
                         player.discardCard(card);
                     }
                 }
+
                 break;
             case HOME_FIELD:
                 break;
@@ -157,34 +127,6 @@ public class Mumble {
                 break;
         }
     }
-
-    public boolean isOccupied(final int positionToCheck) {
-        if(PlayingField.getPlayingField().getField(positionToCheck) != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isOccupied(final List<Player> allPlayers,
-                              final Player player,
-                              final PLAYGROUND targetField,
-                              final int steps,
-                              final Card card,
-                              final boolean moveClockwise,
-                              final int currentIndex) {
-
-        if(steps == currentIndex) {
-
-        }
-
-        if(PlayingField.getPlayingField().getField()){
-            return true;
-        }
-            this.isOccupied(allPlayers, player, targetField, steps, card, moveClockwise, currentIndex + 1)
-
-    }
-
 
     // player has mumbles in PRE_FIELD
     public boolean isMumbleInPreField() {

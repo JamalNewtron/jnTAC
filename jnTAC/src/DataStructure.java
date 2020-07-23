@@ -4,8 +4,13 @@ class ListNode<AnyType> {
 
     // The actual data
     AnyType data;
-    // Reference to the next node
+    // index
+    int index;
+    // Playground
+    PLAYGROUND playground;
+    // player
     Player player;
+    // Reference to the next node
     ListNode<AnyType> next;
     // Reference to the prev node
     ListNode<AnyType> prev;
@@ -14,21 +19,35 @@ class ListNode<AnyType> {
 
 
     ListNode(AnyType data) {
-        this(data, null, null, null, null);
+        this(data, 0, null, null, null, null, null);
     }
 
-
     ListNode(AnyType data,
+             int index,
+             PLAYGROUND playground,
              Player player,
              ListNode<AnyType> next,
              ListNode<AnyType> prev,
              ListNode<AnyType> branch) {
 
         this.data = data;
+        this.index = index;
+        this.playground = playground;
+        this.player = player;
         this.next = next;
         this.prev = prev;
         this.branch = branch;
     }
+
+    public ListNode<AnyType> getNextPrev(final boolean clockwise) {
+        if(clockwise){
+            return this.next;
+        } else {
+            return this.prev;
+        }
+    }
+
+
 }
 
 public class DataStructure<AnyType> {
@@ -64,33 +83,42 @@ public class DataStructure<AnyType> {
 
     public void add(AnyType data) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data, null, null, null, null);
+            this.start = new ListNode<AnyType>(data, this.size, null, null, null, null, null);
             this.size++;
         } else {
             this.add(data, null);
         }
     }
 
-    public void add(AnyType data, Player player) {
+    public void add(AnyType data, PLAYGROUND playground) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data, player, null, null, null);
+            this.start = new ListNode<AnyType>(data, this.size, playground, null, null, null, null);
             this.size++;
         } else {
-            this.add(this.start, data, player);
+            this.add(data, playground, null);
         }
     }
 
-    private void add(ListNode<AnyType> current, AnyType data, Player player){
+    public void add(AnyType data, PLAYGROUND playground, Player player) {
+        if(isEmpty()){
+            this.start = new ListNode<AnyType>(data, this.size, playground, player, null, null, null);
+            this.size++;
+        } else {
+            this.add(this.start, data, player, playground);
+        }
+    }
+
+    private void add(ListNode<AnyType> current, AnyType data, Player player, PLAYGROUND playground){
         // if there is no next node or the next node is the start -> place the next node
         if(current.next == null || current.next == this.start) {
-            current.next = new ListNode<AnyType>(data, player, this.start, current, null);
+            current.next = new ListNode<AnyType>(data, this.size, playground, player, this.start, current, null);
             // newest node is end
             this.end = current.next;
             // nodeOne has to take the new node as previous node.
             // this.nodeOne.prev = current;
             this.size++;
         } else {
-            this.add(current.next, data, player);
+            this.add(current.next, data, player, playground);
         }
     }
 
@@ -149,7 +177,19 @@ public class DataStructure<AnyType> {
         return this.get(current.next, index, incrementalIndex + 1);
     }
 
+    public ListNode<AnyType> getNode(int index) {
+        return this.getNode(index, this.start, 0);
+    }
 
+    private ListNode<AnyType> getNode(final int index, final ListNode<AnyType> current, final int incrementalIndex) {
+        if(index == incrementalIndex) {
+            return current;
+        }
+        if(current.next == null || current.next == this.start) {
+            return null;
+        }
+        return this.getNode(index, current, incrementalIndex + 1);
+    }
 
     public ListNode<AnyType> getNode(final AnyType data){
         return this.getNode(this.start, data);

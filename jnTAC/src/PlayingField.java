@@ -46,7 +46,11 @@ public class PlayingField {
         return PlayingField.playingField;
     }
 
-    public Mumble getField(final int position) {
+    public DataStructure<Mumble> getField() {
+        return this.field;
+    }
+
+    public Mumble getFieldElement(final int position) {
         return this.field.get(position);
     }
 
@@ -81,8 +85,8 @@ public class PlayingField {
 
         FieldResult temp = new FieldResult();
         temp.setStartNode(this.field.getNode(player.getStartPosition()));
-
-        return this.checkMove(temp.getStartNode(), temp, 0, mumble, 0, true);
+        System.out.println("startposition: " + player.getStartPosition() + " of player: " + player);
+        return this.checkMove(temp.getStartNode(), temp, player.getStartPosition(), mumble, player.getStartPosition(), true);
     }
 
     public FieldResult checkMove(final int steps,
@@ -90,6 +94,7 @@ public class PlayingField {
                                  final boolean moveClockwise){
 
         FieldResult temp = new FieldResult();
+        System.out.println("mumble: " + mumble);
         temp.setStartNode(this.field.getNode(mumble));
 
         return this.checkMove(temp.getStartNode().getNextPrev(moveClockwise), temp,steps, mumble, 1, moveClockwise);
@@ -145,25 +150,36 @@ public class PlayingField {
         }
     }
 
-    public void throwMumble(final FieldResult result, final Mumble mumble) {
-        // if there is a mumble, move it to pre field
+    public void moveMumbleToPreField(final FieldResult result) {
+
         if(result.getTargetNode().data != null) {
-            result.getTargetNode().data = null;
-            //result.getTargetNode().data.setPosition( 0, PLAYGROUND.PRE_FIELD);
+            if(result.getTargetNode().data.getPlaygroundPosition() == PLAYGROUND.START_FIELD) {
+                result.getTargetNode().data.setPosition(0, PLAYGROUND.PRE_FIELD);
+                result.getTargetNode().data = null;
+            }
         }
 
+    }
+
+    public void moveMumbleToStartField(final FieldResult result, final Mumble mumble) {
         // place new mumble into node
-        result.getTargetNode().data = mumble;
-        result.getTargetNode().data.setPosition(result.getTargetNode().index, PLAYGROUND.START_FIELD);
+        if(result.getTargetNode().data == null) {
+            result.getTargetNode().data = mumble;
+            result.getTargetNode().data.setPosition(result.getTargetNode().index, PLAYGROUND.START_FIELD);
+        }
+    }
 
-        System.out.println("position" + result.getTargetNode().data.getPosition());
-        System.out.println("ground" + result.getTargetNode().data.getPlaygroundPosition());
+    public void moveMumbleWithinStartField(final FieldResult result, final Mumble mumble) {
 
-        // clear old position
-        //result.getStartNode().data = null;
+        if(result.getTargetNode().data == null) {
+            result.getTargetNode().data = mumble;
+            result.getTargetNode().data.setPosition(result.getTargetNode().index, PLAYGROUND.START_FIELD);
 
-        System.out.println("position" + result.getTargetNode().data.getPosition());
-        System.out.println("ground" + result.getTargetNode().data.getPlaygroundPosition());
+            // free up old node
+            result.getStartNode().data = null;
+
+        }
+
 
     }
 

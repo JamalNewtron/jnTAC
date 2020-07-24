@@ -117,11 +117,14 @@ public class NumberedCard implements Card {
         System.out.println(player.getPlayerName()+  ", mumble: " + mumble);
         System.out.println(player.getPlayerName()+  ", start: " + currentMumblePosition);
         System.out.println(player.getPlayerName()+  ", steps: " + steps);
-        System.out.println(player.getPlayerName()+  ", target: " + targetMumblePosition);;
+        System.out.println(player.getPlayerName()+  ", target: " + targetMumblePosition);
 
         // Mumble enters HOME_FIELD or returns to new cycle
 
-        // 0 bis 63 erlaubt
+        player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, steps, this , true);
+
+
+/*        // 0 bis 63 erlaubt
         if(tempCurrentMumblePosition <= 63){
             player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this , true);
 
@@ -137,6 +140,6 @@ public class NumberedCard implements Card {
         } else if(targetMumblePosition > 68){
             targetMumblePosition = targetMumblePosition - 64;
             player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this, true);
-        }
+        }*/
     }
 }

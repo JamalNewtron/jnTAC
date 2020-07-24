@@ -63,15 +63,25 @@ public class Main {
                 System.out.println("");
             }
 
-            System.out.println("Player1: Which card do you want to play?");
+            for(int i = 0; i < PlayingField.getPlayingField().getField().size(); i++) {
+                System.out.println(PlayingField.getPlayingField().getFieldElement(i));
+            }
+
+            int player = 0;
+            System.out.println("Player1: CARD?");
             String useCard = in.nextLine();
-            System.out.println("Player1: Which mumble to use?");
+            System.out.println("Player1: MUMBEL?");
             String useMumble = in.nextLine();
 
-            allPlayers.get(0).getCards().get(Integer.parseInt(useCard)).playSelectedCard(allPlayers, allPlayers.get(0), Integer.parseInt(useMumble));
+            allPlayers.get(player).getCards().get(Integer.parseInt(useCard)).playSelectedCard(allPlayers, allPlayers.get(player), Integer.parseInt(useMumble));
 
+            System.out.println("Player2: CARD?");
+            String useCard1 = in.nextLine();
+            System.out.println("Player2: MUMBEL?");
+            String useMumble1 = in.nextLine();
+            player = 1;
 
-
+            allPlayers.get(player).getCards().get(Integer.parseInt(useCard1)).playSelectedCard(allPlayers, allPlayers.get(player), Integer.parseInt(useMumble1));
 
             System.out.println("Do you want to play next round?");
             userInput = in.nextLine();
@@ -123,8 +133,8 @@ public class Main {
         System.out.println("");
 
         for(int i = 0; i < 65; i++) {
-            if(PlayingField.getPlayingField().getField(i) != null) {
-                System.out.println(PlayingField.getPlayingField().getField(i).getPosition());
+            if(PlayingField.getPlayingField().getFieldElement(i) != null) {
+                System.out.println(PlayingField.getPlayingField().getFieldElement(i).getPosition());
             }
         }
 

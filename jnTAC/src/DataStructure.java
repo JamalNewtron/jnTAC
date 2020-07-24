@@ -83,7 +83,7 @@ public class DataStructure<AnyType> {
 
     public void add(AnyType data) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data, this.size, null, null, null, null, null);
+            this.start = new ListNode<AnyType>(data, this.size, null, null, null, this.end, null);
             this.size++;
         } else {
             this.add(data, null);
@@ -92,7 +92,7 @@ public class DataStructure<AnyType> {
 
     public void add(AnyType data, PLAYGROUND playground) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data, this.size, playground, null, null, null, null);
+            this.start = new ListNode<AnyType>(data, this.size, playground, null, null, this.end, null);
             this.size++;
         } else {
             this.add(data, playground, null);
@@ -101,7 +101,7 @@ public class DataStructure<AnyType> {
 
     public void add(AnyType data, PLAYGROUND playground, Player player) {
         if(isEmpty()){
-            this.start = new ListNode<AnyType>(data, this.size, playground, player, null, null, null);
+            this.start = new ListNode<AnyType>(data, this.size, playground, player, null, this.end, null);
             this.size++;
         } else {
             this.add(this.start, data, player, playground);
@@ -188,7 +188,7 @@ public class DataStructure<AnyType> {
         if(current.next == null || current.next == this.start) {
             return null;
         }
-        return this.getNode(index, current, incrementalIndex + 1);
+        return this.getNode(index, current.next, incrementalIndex + 1);
     }
 
     public ListNode<AnyType> getNode(final AnyType data){
@@ -196,8 +196,10 @@ public class DataStructure<AnyType> {
     }
 
     private ListNode<AnyType> getNode(final ListNode<AnyType> current, final AnyType data){
-        if(current.data.equals(data)) {
-            return current;
+        if(current.data != null) {
+            if (current.data.equals(data)) {
+                return current;
+            }
         }
         if(current.next == null || current.next == this.start){
             return null;

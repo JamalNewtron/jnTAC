@@ -21,6 +21,13 @@ public class Player {
         Mumble thirdMumble = new Mumble(this);
         Mumble fourthMumble = new Mumble(this);
 
+        System.out.println("firstMumbel: " + firstMumble);
+        System.out.println("secondMumble: " + secondMumble);
+        System.out.println("thirdMumble: " + thirdMumble);
+        System.out.println("fourthMumble: " + fourthMumble);
+
+
+
         // four stones for second player
         List<Mumble> playerMumbles = new LinkedList<Mumble>();
 

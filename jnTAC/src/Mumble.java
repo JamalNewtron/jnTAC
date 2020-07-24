@@ -76,8 +76,7 @@ public class Mumble {
                     System.out.println("Do you really want to placcceee?");
                     userInput = in.nextLine();
                     if(userInput.equals("y") || userInput.equals("yes")) {
-                        PlayingField.getPlayingField().placeMumble(temp, this);
-                        player.discardCard(card);
+                        PlayingField.getPlayingField().moveMumbleToStartField(temp, this);
                     }
                 }
 
@@ -85,18 +84,11 @@ public class Mumble {
                     System.out.println("Do you really want to placcceee?");
                     userInput = in.nextLine();
                     if(userInput.equals("y") || userInput.equals("yes")) {
-                        // send old mumble into pre field
-
-
+                        // send mumble already on start position to home
+                        PlayingField.getPlayingField().moveMumbleToPreField(temp);
 
                         // place mumble to target
-                        PlayingField.getPlayingField().throwMumble(temp, this);
-
-
-                        // remove mumble from own pre field
-
-
-                        player.discardCard(card);
+                        PlayingField.getPlayingField().moveMumbleToStartField(temp, this);
                     }
                 }
 
@@ -104,20 +96,43 @@ public class Mumble {
                     System.out.println("occupied by yourself");
                 }
 
+                player.discardCard(card);
+
                 break;
             case START_FIELD:
                 temp = PlayingField.getPlayingField().checkMove(steps, this, moveClockwise);
 
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED
-                        || temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF
-                        || temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED) {
                     System.out.println("Do you really want to place?");
                     userInput = in.nextLine();
                     if(userInput.equals("y") || userInput.equals("yes")) {
-                        PlayingField.getPlayingField().throwMumble(temp, this);
-                        player.discardCard(card);
+                        PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this);
                     }
                 }
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                    System.out.println("Do you really want to place?");
+                    userInput = in.nextLine();
+                    if(userInput.equals("y") || userInput.equals("yes")) {
+
+                        PlayingField.getPlayingField().moveMumbleToPreField(temp);
+                        PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this);
+
+                    }
+                }
+
+                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
+                    System.out.println("Do you really want to place?");
+                    userInput = in.nextLine();
+                    if(userInput.equals("y") || userInput.equals("yes")) {
+
+                        PlayingField.getPlayingField().moveMumbleToPreField(temp);
+                        PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this);
+
+                    }
+                }
+
+                player.discardCard(card);
+
 
                 break;
             case HOME_FIELD:

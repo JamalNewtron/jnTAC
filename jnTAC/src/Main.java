@@ -64,7 +64,14 @@ public class Main {
             }
 
             for(int i = 0; i < PlayingField.getPlayingField().getField().size(); i++) {
-                System.out.println(PlayingField.getPlayingField().getFieldElement(i));
+                System.out.print("prev(" + i + "): " + PlayingField.getPlayingField().getField().getNode(i).prev + " ");
+                System.out.print("node(" + i + "): " + PlayingField.getPlayingField().getField().getNode(i) + " ");
+                System.out.print("next(" + i + "): " + PlayingField.getPlayingField().getField().getNode(i).next);
+                System.out.println("");
+            }
+
+            for(int i = 0; i < PlayingField.getPlayingField().getField().size(); i++) {
+                System.out.println("node.data(" + i + "): " + PlayingField.getPlayingField().getFieldElement(i));
             }
 
             int player = 0;

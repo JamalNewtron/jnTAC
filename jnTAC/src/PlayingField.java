@@ -97,7 +97,7 @@ public class PlayingField {
         System.out.println("mumble: " + mumble);
         temp.setStartNode(this.field.getNode(mumble));
 
-        return this.checkMove(temp.getStartNode().getNextPrev(moveClockwise), temp,steps, mumble, 1, moveClockwise);
+        return this.checkMove(temp.getStartNode().getNextPrev(moveClockwise), temp, steps, mumble, 1, moveClockwise);
     }
 
     private FieldResult checkMove(final ListNode<Mumble> currentNode,
@@ -108,6 +108,7 @@ public class PlayingField {
                                   final boolean moveClockwise) {
 
         System.out.println("inkrement: " + incrementalIndex);
+        System.out.println("currentNode: " + currentNode);
         if(currentNode.data != null) {
             System.out.println("occupied");
             System.out.println(currentNode.index);

@@ -17,6 +17,8 @@ public class Mumble {
     private PLAYGROUND currentField;
     // made a turn
     private boolean roundDone;
+    // todo: define own node!
+    private ListNode<Mumble> ownNode;
 
     public Mumble(final Player player) {
         this(player, 0, PLAYGROUND.PRE_FIELD, false);
@@ -96,7 +98,7 @@ public class Mumble {
                     System.out.println("occupied by yourself");
                 }
 
-                player.discardCard(card);
+                //player.discardCard(card);
 
                 break;
             case START_FIELD:
@@ -131,7 +133,7 @@ public class Mumble {
                     }
                 }
 
-                player.discardCard(card);
+                //player.discardCard(card);
 
 
                 break;

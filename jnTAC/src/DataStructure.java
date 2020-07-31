@@ -114,8 +114,8 @@ public class DataStructure<AnyType> {
             current.next = new ListNode<AnyType>(data, this.size, playground, player, this.start, current, null);
             // newest node is end
             this.end = current.next;
-            // nodeOne has to take the new node as previous node.
-            // this.nodeOne.prev = current;
+            // star node has to take the new node as previous node.
+            this.start.prev = this.end;
             this.size++;
         } else {
             this.add(current.next, data, player, playground);
@@ -159,8 +159,6 @@ public class DataStructure<AnyType> {
         }
 
     }
-
-
 
     public AnyType get(int index) {
         return this.get(this.start, index, 0);

@@ -234,9 +234,8 @@ public class PlayingField {
                     } else {
                         System.out.println("not target position, slot unoccupied");
 
-                        if(currentNode.next == null) {
+                        if(currentNode.getNextPrev(moveClockwise) != null) {
                             System.out.println("no following node");
-                        } else {
                             this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
                         }
                     }
@@ -265,7 +264,9 @@ public class PlayingField {
 
                     if (currentNode.data.equals(mumble)) {
                         System.out.println("no target position, occupied by mumble itself");
-                        this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                        if (currentNode.getNextPrev(moveClockwise) != null) {
+                            this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                        }
                     } else {
                         if (currentNode.data.getPlayer().equals(mumble.getPlayer())) {
                             System.out.println("no target position, occupied by own mumble");
@@ -290,7 +291,12 @@ public class PlayingField {
                     if(currentNode.next == null) {
                         System.out.println("no following node");
                     } else {
-                        this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                        // make safe that there exists a previous or next node
+                        if (currentNode.getNextPrev(moveClockwise) != null) {
+                            this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                        } else {
+                            System.out.println("null pointer");
+                        }
                     }
                 }
             }

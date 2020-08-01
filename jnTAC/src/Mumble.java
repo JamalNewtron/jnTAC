@@ -18,7 +18,7 @@ public class Mumble {
     // made a turn
     private boolean roundDone;
     // todo: define own node!
-    private ListNode<Mumble> ownNode;
+    private ListNode<Mumble> node;
 
     public Mumble(final Player player) {
         this(player, 0, PLAYGROUND.PRE_FIELD, false);
@@ -35,6 +35,21 @@ public class Mumble {
         return player;
     }
 
+    public boolean isRoundDone() {
+        return roundDone;
+    }
+
+    public void setRoundDone(boolean roundDone) {
+        this.roundDone = roundDone;
+    }
+
+    public ListNode<Mumble> getNode() {
+        return node;
+    }
+
+    public void setNode(ListNode<Mumble> node) {
+        this.node = node;
+    }
 
     // getter for intPositon
     public int getPosition() {
@@ -102,7 +117,7 @@ public class Mumble {
 
                 break;
             case START_FIELD:
-                temp = PlayingField.getPlayingField().checkMove(steps, this, moveClockwise);
+                temp = PlayingField.getPlayingField().checkMove(player, steps, this, moveClockwise);
 
                 if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED) {
                     System.out.println("Do you really want to place?");

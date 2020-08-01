@@ -9,6 +9,8 @@ public class Player {
     private String playerName;
     private int playerNumber;
     private static int playerNumberCounter = 1;
+    // todo: define start node
+    private ListNode<Mumble> startNode;
 
     public Player(final List<Card> cards,
                   final int startPosition,
@@ -41,7 +43,7 @@ public class Player {
 
         this.homeField = new DataStructure<Mumble>();
         for(int i = 0; i < 4; i++) {
-            this.homeField.add(null, PLAYGROUND.HOME_FIELD, this);
+            this.homeField.addLinear(null, PLAYGROUND.HOME_FIELD, this);
         }
 
     }
@@ -59,6 +61,14 @@ public class Player {
         this.playerName = playerName;
         this.playerNumber = playerNumberCounter;
         playerNumberCounter += 1;
+    }
+
+    public ListNode<Mumble> getStartNode() {
+        return startNode;
+    }
+
+    public void setStartNode(ListNode<Mumble> startNode) {
+        this.startNode = startNode;
     }
 
     public void setPlayerName(final String playerName) {

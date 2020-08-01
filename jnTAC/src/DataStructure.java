@@ -260,4 +260,26 @@ public class DataStructure<AnyType> {
         return this.size;
     }
 
+    // linear doubly linked list
+
+    public void addLinear(AnyType data, PLAYGROUND playground, Player player) {
+        if(isEmpty()){
+            this.start = new ListNode<AnyType>(data, this.size, playground, player, null, null, null);
+            this.size++;
+        } else {
+            this.addLinear(this.start, data, player, playground);
+        }
+    }
+
+    private void addLinear(ListNode<AnyType> current, AnyType data, Player player, PLAYGROUND playground){
+        // if there is no next node or the next node is the start -> place the next node
+        if(current.next == null) {
+            current.next = new ListNode<AnyType>(data, this.size, playground, player, null, current, null);
+            // newest node is end
+            this.end = current.next;
+            this.size++;
+        } else {
+            this.addLinear(current.next, data, player, playground);
+        }
+    }
 }

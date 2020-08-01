@@ -29,8 +29,11 @@ public class PlayingField {
             // mark the players start position with the player
             this.field.set(allPlayers.get(i).getStartPosition(), null, allPlayers.get(i));
 
+            // set player startNode to created start nodes
+            allPlayers.get(i).setStartNode(this.field.getNode(allPlayers.get(i).getStartPosition()));
+
             // field element points with its branch node towards the players home field start
-            this.field.setBranch(i, allPlayers.get(i).getHomeField().getStart());
+            this.field.setBranch(allPlayers.get(i).getStartPosition(), allPlayers.get(i).getHomeField().getStart());
         }
 
     }
@@ -83,24 +86,28 @@ public class PlayingField {
 
     public FieldResult checkStartposition(final Player player, final Mumble mumble) {
 
-        FieldResult temp = new FieldResult();
-        temp.setStartNode(this.field.getNode(player.getStartPosition()));
+        FieldResult tempResult = new FieldResult();
+        tempResult.setStartNode(this.field.getNode(player.getStartPosition()));
         System.out.println("startposition: " + player.getStartPosition() + " of player: " + player);
-        return this.checkMove(temp.getStartNode(), temp, player.getStartPosition(), mumble, player.getStartPosition(), true);
+        this.checkMove(player, tempResult.getStartNode(), tempResult, player.getStartPosition(), mumble, player.getStartPosition(), true);
+        return tempResult;
     }
 
-    public FieldResult checkMove(final int steps,
+    public FieldResult checkMove(final Player player,
+                                 final int steps,
                                  final Mumble mumble,
                                  final boolean moveClockwise){
 
-        FieldResult temp = new FieldResult();
+        FieldResult tempResult = new FieldResult();
         System.out.println("mumble: " + mumble);
-        temp.setStartNode(this.field.getNode(mumble));
+        tempResult.setStartNode(this.field.getNode(mumble));
 
-        return this.checkMove(temp.getStartNode().getNextPrev(moveClockwise), temp, steps, mumble, 1, moveClockwise);
+        this.checkMove(player, tempResult.getStartNode().getNextPrev(moveClockwise), tempResult, steps, mumble, 1, moveClockwise);
+        return tempResult;
     }
 
-    private FieldResult checkMove(final ListNode<Mumble> currentNode,
+    private void checkMove(final Player player,
+                                  final ListNode<Mumble> currentNode,
                                   final FieldResult result,
                                   final int steps,
                                   final Mumble mumble,
@@ -109,12 +116,12 @@ public class PlayingField {
 
         System.out.println("inkrement: " + incrementalIndex);
         System.out.println("currentNode: " + currentNode);
-        if(currentNode.data != null) {
+        if (currentNode.data != null) {
             System.out.println("occupied");
             System.out.println(currentNode.index);
-            if(steps == incrementalIndex) {
+            if (steps == incrementalIndex) {
                 System.out.println("targeposition occupied");
-                if(currentNode.data.getPlayer().equals(mumble.getPlayer())) {
+                if (currentNode.data.getPlayer().equals(mumble.getPlayer())) {
                     System.out.println("target position occupied by own mumble");
                     result.setTargetNode(currentNode);
                     result.setOccupationStatus(OCCUPATION_STATUS.OCCUPIED_BY_ONESELF);
@@ -123,10 +130,9 @@ public class PlayingField {
                     result.setTargetNode(currentNode);
                     result.setOccupationStatus(OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT);
                 }
-                return result;
             } else {
                 System.out.println("no target position, occupied");
-                if(currentNode.data.getPlayer().equals(mumble.getPlayer())) {
+                if (currentNode.data.getPlayer().equals(mumble.getPlayer())) {
                     System.out.println("no target position, occupied by own mumble");
                     result.setTargetNode(currentNode);
                     result.setOccupationStatus(OCCUPATION_STATUS.BLOCKED_BY_ONESELF);
@@ -135,18 +141,26 @@ public class PlayingField {
                     result.setTargetNode(currentNode);
                     result.setOccupationStatus(OCCUPATION_STATUS.BLOCKED_BY_OPPONENT);
                 }
-                return result;
             }
         } else {
             System.out.println("unoccupied");
-            if(steps == incrementalIndex) {
+            if (steps == incrementalIndex) {
                 System.out.println("targetposition unoccupied");
                 result.setTargetNode(currentNode);
                 result.setOccupationStatus(OCCUPATION_STATUS.UNOCCUPIED);
-                return result;
             } else {
                 System.out.println("not target position, slot unoccupied");
-                return this.checkMove(currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+
+                // landed on start position
+                if (currentNode == player.getStartNode()) {
+
+                    System.out.println("inside");
+                    // mumble ready to ho home
+                    if (mumble.isRoundDone()) {
+                        this.checkMove(player, currentNode.branch, result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                    }
+                }
+                this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
             }
         }
     }
@@ -159,7 +173,6 @@ public class PlayingField {
                 result.getTargetNode().data = null;
             }
         }
-
     }
 
     public void moveMumbleToStartField(final FieldResult result, final Mumble mumble) {

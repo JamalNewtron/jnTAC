@@ -26,7 +26,7 @@ public class PlayingField {
         }
 
         // player specific modifications
-        for(int i = 0; i < allPlayers.size(); i++) {
+        for (int i = 0; i < allPlayers.size(); i++) {
             // mark the players start position with the player
             this.field.set(allPlayers.get(i).getStartPosition(), null, allPlayers.get(i));
 
@@ -36,7 +36,6 @@ public class PlayingField {
             // field element points with its branch node towards the players home field start
             this.field.setBranch(allPlayers.get(i).getStartPosition(), allPlayers.get(i).getHomeField().getStart());
         }
-
     }
 
     public static PlayingField getPlayingField() {
@@ -62,7 +61,8 @@ public class PlayingField {
                                       final Mumble mumble) {
         // Check whether field is already empty.
         if(this.field.get(position) != null){
-            this.field.get(position).setPosition(0, PLAYGROUND.PRE_FIELD);
+            this.field.get(position).setCurrentField(PLAYGROUND.PRE_FIELD);
+            this.field.get(position).setNode(null);
             this.field.set(position, null);
         } else {
             System.out.println("field@ " + position + " is empty.");
@@ -79,7 +79,8 @@ public class PlayingField {
         this.field.set(targetPosition, mumble);
 
         // We also store the position information inside the mumble.
-        mumble.setPosition(targetPosition, PLAYGROUND.START_FIELD);
+        mumble.setNode(this.field.getNode(targetPosition));
+        //mumble.setPosition(targetPosition, PLAYGROUND.START_FIELD);
 
         // Remove entry at start slot.
         this.field.set(startPosition, null);
@@ -121,7 +122,11 @@ public class PlayingField {
             if (mumble.isRoundDone()) {
                 System.out.println("roundDone");
                 this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
-                this.checkMove(player, currentNode.branch, result, steps, mumble, incrementalIndex + 1, moveClockwise);
+
+                // restrict branch only for clockwise, it is not allowed to move into branch when moving backwards e.g. with card 4
+                if (moveClockwise) {
+                    this.checkMove(player, currentNode.branch, result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                }
             } else {
                 // todo: ???
                 System.out.println("notRoundDone");
@@ -237,7 +242,8 @@ public class PlayingField {
         if(result.getTargetNodes().get(selectedPosition).data != null) {
             // is it realy in start field?
             if(result.getTargetNodes().get(selectedPosition).data.getPlaygroundPosition() == PLAYGROUND.START_FIELD) {
-                result.getTargetNodes().get(selectedPosition).data.setPosition(0, PLAYGROUND.PRE_FIELD);
+                result.getTargetNodes().get(selectedPosition).data.setNode(result.getTargetNodes().get(selectedPosition));
+                //result.getTargetNodes().get(selectedPosition).data.setPosition(0, PLAYGROUND.PRE_FIELD);
                 result.getTargetNodes().get(selectedPosition).data.setRoundDone(false);
                 result.getTargetNodes().get(selectedPosition).data = null;
             }
@@ -247,8 +253,12 @@ public class PlayingField {
     // place new mumble into node
     public void moveMumbleToStartField(final FieldResult result, final Mumble mumble, final int selectedPosition) {
         if(result.getTargetNodes().get(selectedPosition).data == null) {
+            // place mumble into node data
             result.getTargetNodes().get(selectedPosition).data = mumble;
-            result.getTargetNodes().get(selectedPosition).data.setPosition(result.getTargetNodes().get(selectedPosition).index, PLAYGROUND.START_FIELD);
+            // todo: check whether the following statement is needed!
+            //result.getTargetNodes().get(selectedPosition).data.setPosition(result.getTargetNodes().get(selectedPosition).index, PLAYGROUND.START_FIELD);
+            // write node to mumble
+            mumble.setNode(result.getTargetNodes().get(selectedPosition));
         }
     }
 
@@ -257,27 +267,25 @@ public class PlayingField {
         if(result.getTargetNodes().get(selectedPosition).data == null) {
             // when mumble is move first time, it can be moved to home field through the start node
             mumble.setRoundDone(true);
-
             // place mumble inside node
             result.getTargetNodes().get(selectedPosition).data = mumble;
             // set index of node to position_index of mumble
-            result.getTargetNodes().get(selectedPosition).data.setPosition(result.getTargetNodes().get(selectedPosition).index, PLAYGROUND.START_FIELD);
-
+            // todo: check whether the following statement is needed!
+            //result.getTargetNodes().get(selectedPosition).data.setPosition(result.getTargetNodes().get(selectedPosition).index, PLAYGROUND.START_FIELD);
+            // write node to mumble
+            mumble.setNode(result.getTargetNodes().get(selectedPosition));
             // free up old node
             result.getStartNode().data = null;
-
         }
     }
 }
 
 class FieldResult {
 
-    // a list which carries nodes of type mumble
-
-
     private ListNode<Mumble> startNode;
-
+    // a list which carries nodes of type mumble
     private List<ListNode<Mumble>> targetNodes;
+    // a list which carries occupationStatuses
     private List<OCCUPATION_STATUS> occupationStatuses;
 
     public FieldResult() {
@@ -290,8 +298,6 @@ class FieldResult {
         this.targetNodes = new LinkedList<ListNode<Mumble>>();
         this.occupationStatuses = new LinkedList<OCCUPATION_STATUS>();
     }
-
-
 
     public ListNode<Mumble> getStartNode() {
         return startNode;

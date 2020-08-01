@@ -105,7 +105,7 @@ public class NumberedCard implements Card {
                                         final int steps) {
 
         // current position
-        int currentMumblePosition = player.getMumbles().get(mumble).getPosition();
+        int currentMumblePosition = player.getMumbles().get(mumble).getNode().index;
 
         int tempCurrentMumblePosition = currentMumblePosition - player.getStartPosition();
         if(tempCurrentMumblePosition < 0) {
@@ -114,32 +114,13 @@ public class NumberedCard implements Card {
 
         int targetMumblePosition = currentMumblePosition + steps;
 
-        System.out.println(player.getPlayerName()+  ", mumble: " + mumble);
-        System.out.println(player.getPlayerName()+  ", start: " + currentMumblePosition);
-        System.out.println(player.getPlayerName()+  ", steps: " + steps);
-        System.out.println(player.getPlayerName()+  ", target: " + targetMumblePosition);
+        //System.out.println(player.getPlayerName()+  ", mumble: " + mumble);
+        //System.out.println(player.getPlayerName()+  ", start: " + currentMumblePosition);
+        //System.out.println(player.getPlayerName()+  ", steps: " + steps);
+        //System.out.println(player.getPlayerName()+  ", target: " + targetMumblePosition);
 
         // Mumble enters HOME_FIELD or returns to new cycle
 
         player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, steps, this , true);
-
-
-/*        // 0 bis 63 erlaubt
-        if(tempCurrentMumblePosition <= 63){
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this , true);
-
-        // positions  63
-        } else if(targetMumblePosition == 64){
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this, true);
-
-        // could land in the
-        } else if(targetMumblePosition > 64 && targetMumblePosition < 69){
-            player.getMumbles().get(mumble).moveMumble(allPlayers,player, PLAYGROUND.HOME_FIELD, targetMumblePosition, this, true);
-
-        //
-        } else if(targetMumblePosition > 68){
-            targetMumblePosition = targetMumblePosition - 64;
-            player.getMumbles().get(mumble).moveMumble(allPlayers, player, PLAYGROUND.START_FIELD, targetMumblePosition, this, true);
-        }*/
     }
 }

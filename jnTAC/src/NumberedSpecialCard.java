@@ -38,6 +38,7 @@ public class NumberedSpecialCard extends NumberedCard {
                 this.moveFourBack(allPlayers, player, mumble);
                 break;
             case SEVEN:
+                this.executeSplitMovement();
                 break;
             case EIGHT:
                 break;
@@ -94,6 +95,16 @@ public class NumberedSpecialCard extends NumberedCard {
                     this,
                     false);
         }
+    }
+
+    public void executeSplitMovement() {
+        // Additional check
+        if(AVAILABLE_CARD_NUMBERS.EIGHT == this.getCardValue()) {
+            
+
+
+        }
+
     }
 
 }

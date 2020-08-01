@@ -58,7 +58,7 @@ public class Main {
                     System.out.println("Player: "
                             + allPlayers.get(i).getPlayerNumber()
                             + ", mumble @ : "
-                            + allPlayers.get(i).getMumbles().get(n).getPosition());
+                            + allPlayers.get(i).getMumbles().get(n).getNode().index);
                 }
                 System.out.println("");
             }
@@ -140,21 +140,21 @@ public class Main {
         //secondPlayer.getCards().get(4).playSelectedCard(allPlayers, secondPlayer, 3);
 
 
-        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getPosition());
-        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getPosition());
-        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getPosition());
-        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getPosition());
+        System.out.println("1.1: " + firstPlayer.getMumbles().get(0).getNode().index);
+        System.out.println("1.2: " + firstPlayer.getMumbles().get(1).getNode().index);
+        System.out.println("1.3: " + firstPlayer.getMumbles().get(2).getNode().index);
+        System.out.println("1.4: " + firstPlayer.getMumbles().get(3).getNode().index);
         System.out.println("");
 
-        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getPosition());
-        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getPosition());
-        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getPosition());
-        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getPosition());
+        System.out.println("2.1: " + secondPlayer.getMumbles().get(0).getNode().index);
+        System.out.println("2.2: " + secondPlayer.getMumbles().get(1).getNode().index);
+        System.out.println("2.3: " + secondPlayer.getMumbles().get(2).getNode().index);
+        System.out.println("2.4: " + secondPlayer.getMumbles().get(3).getNode().index);
         System.out.println("");
 
         for(int i = 0; i < 65; i++) {
             if(PlayingField.getPlayingField().getFieldElement(i) != null) {
-                System.out.println(PlayingField.getPlayingField().getFieldElement(i).getPosition());
+                System.out.println(PlayingField.getPlayingField().getFieldElement(i).getNode().index);
             }
         }
 
@@ -164,22 +164,14 @@ public class Main {
         asdf.add(new Mumble(firstPlayer, 2, PLAYGROUND.START_FIELD, true));
         asdf.add(new Mumble(firstPlayer, 45, PLAYGROUND.START_FIELD, true));
 
-        System.out.println("my own structure: " + asdf.get(0).getPosition());
-        System.out.println("my own structure: " + asdf.get(1).getPosition());
-        System.out.println("my own structure: " + asdf.get(2).getPosition());
+        System.out.println("my own structure: " + asdf.get(0).getNode().index);
+        System.out.println("my own structure: " + asdf.get(1).getNode().index);
+        System.out.println("my own structure: " + asdf.get(2).getNode().index);
 
         asdf.set(1, new Mumble(firstPlayer, 234, PLAYGROUND.START_FIELD, true));
 
-        System.out.println("my own structure: " + asdf.get(0).getPosition());
-        System.out.println("my own structure: " + asdf.get(1).getPosition());
-        System.out.println("my own structure: " + asdf.get(2).getPosition());
-
-
-
-
-
-
-
-
+        System.out.println("my own structure: " + asdf.get(0).getNode().index);
+        System.out.println("my own structure: " + asdf.get(1).getNode().index);
+        System.out.println("my own structure: " + asdf.get(2).getNode().index);
     }
 }

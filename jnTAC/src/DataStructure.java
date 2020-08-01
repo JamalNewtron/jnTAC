@@ -17,6 +17,9 @@ class ListNode<AnyType> {
     // branch
     ListNode<AnyType> branch;
 
+    ListNode(){
+        this(null);
+    }
 
     ListNode(AnyType data) {
         this(data, 0, null, null, null, null, null);

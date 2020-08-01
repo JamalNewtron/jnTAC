@@ -12,7 +12,7 @@ public class Mumble {
     // to which player does the mumble belong
     private Player player;
     // current position inside a field
-    private int position;
+    // private int position;
     // current playgroud position
     private PLAYGROUND currentField;
     // made a turn
@@ -26,9 +26,10 @@ public class Mumble {
 
     public Mumble(final Player player, final int startPosition, final PLAYGROUND startField, final boolean roundDone) {
         this.player = player;
-        this.position = startPosition;
+        //this.position = startPosition;
         this.currentField = startField;
         this.roundDone = roundDone;
+        this.node = new ListNode<Mumble>();
     }
 
     public Player getPlayer() {
@@ -52,22 +53,29 @@ public class Mumble {
     }
 
     // getter for intPositon
+    /*
     public int getPosition() {
         return this.position;
     }
+    */
 
     // getter for playgroundPosition
     public PLAYGROUND getPlaygroundPosition() {
         return this.currentField;
     }
 
-    // setter for intPosition and playgroundPosition
+    // setter for playgroundPosition
+    public void setCurrentField(PLAYGROUND currentField) {
+        this.currentField = currentField;
+    }
+
+    /*
     public void setPosition(final int nextPosition,
                             final PLAYGROUND nextField) {
         this.position = nextPosition;
         this.currentField = nextField;
     }
-
+     */
 
     // Check whether position is free or already occupied and move mumble to specified target
     public void moveMumble(final List<Player> allPlayers,
@@ -79,8 +87,6 @@ public class Mumble {
         Scanner in = new Scanner(System.in);
 
         String userInput;
-        int startPosition = this.position;
-        boolean isOccupied = false;
         FieldResult temp;
 
         switch (targetField) {
@@ -123,23 +129,28 @@ public class Mumble {
                 int input = 0;
                 // todo: when road is blocked -> user should not be allowed to choose blocked way!
                 if (temp.getOccupationStatuses().size() > 1) {
+
                     System.out.println("There are more than one possible position");
-                    System.out.println("Position ");
                     for (int i = 0; i < temp.getOccupationStatuses().size(); i++) {
-                        System.out.println("Position("
-                                + i
-                                + "): "
-                                + temp.getTargetNodes().get(i).playground
-                                + "    "
-                                + temp.getTargetNodes().get(i).index);
+
+                        // show only unblocked solutions
+                        //System.out.println("status: " + temp.getOccupationStatuses().get(i));
+                        if (!(temp.getOccupationStatuses().get(i).equals(OCCUPATION_STATUS.BLOCKED_BY_OPPONENT)
+                                || temp.getOccupationStatuses().get(i).equals(OCCUPATION_STATUS.BLOCKED_BY_ONESELF))) {
+                            System.out.println("Position("
+                                    + i
+                                    + "): "
+                                    + temp.getTargetNodes().get(i).playground
+                                    + "    "
+                                    + temp.getTargetNodes().get(i).index);
+                            System.out.println("Move to position: " + i + "?");
+                        }
                     }
 
-                    System.out.println("move to position 0 or 1");
-
                     userInput = in.nextLine();
-
                     input = Integer.parseInt(userInput);
-                    if (userInput.equals("1") || userInput.equals("2")) {
+
+                    if (userInput.equals("0") || userInput.equals("1")) {
                         if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.UNOCCUPIED) {
                             System.out.println("UNOCCUPIED: Do you really want to place?");
                             userInput = in.nextLine();
@@ -171,7 +182,6 @@ public class Mumble {
 
                     }
                 } else {
-
                     if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.UNOCCUPIED) {
                         System.out.println("Do you really want to place?");
                         userInput = in.nextLine();

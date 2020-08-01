@@ -1,5 +1,6 @@
 import javax.sound.midi.Soundbank;
 import java.util.List;
+import java.util.Scanner;
 
 public class NumberedSpecialCard extends NumberedCard {
 
@@ -38,7 +39,7 @@ public class NumberedSpecialCard extends NumberedCard {
                 this.moveFourBack(allPlayers, player, mumble);
                 break;
             case SEVEN:
-                this.executeSplitMovement();
+                this.executeSplitMovement(allPlayers, player, mumble);
                 break;
             case EIGHT:
                 break;
@@ -97,14 +98,46 @@ public class NumberedSpecialCard extends NumberedCard {
         }
     }
 
-    public void executeSplitMovement() {
+    public void executeSplitMovement(final List<Player> allPlayers,
+                                     final Player player,
+                                     final int mumble) {
         // Additional check
-        if(AVAILABLE_CARD_NUMBERS.EIGHT == this.getCardValue()) {
-            
+        if(AVAILABLE_CARD_NUMBERS.SEVEN == this.getCardValue()) {
+            Scanner in = new Scanner(System.in);
+            String userInput;
+            int stepsLeft = 7;
+            boolean moveClockwise = true;
 
+            while (stepsLeft > 0) {
 
+                System.out.println("Input split move: ");
+                userInput = in.nextLine();
+                int splitMove = Integer.parseInt(userInput);
+
+                // direction selection is only allowed inside home!
+                // todo: remove playground attribute inside mumble
+                if (player.getMumbles().get(mumble).getNode().playground == PLAYGROUND.HOME_FIELD) {
+                    System.out.println("Select direction (1 = clockwise): ");
+                    userInput = in.nextLine();
+                    if (Integer.parseInt(userInput) == 1) {
+                        moveClockwise = true;
+                    } else {
+                        moveClockwise = false;
+                    }
+                }
+
+                // decrease left steps
+                stepsLeft = stepsLeft - splitMove;
+
+                player.getMumbles().get(mumble).moveMumble(
+                        allPlayers,
+                        player,
+                        PLAYGROUND.START_FIELD,
+                        splitMove,
+                        this,
+                        moveClockwise);
+            }
         }
-
     }
 
 }

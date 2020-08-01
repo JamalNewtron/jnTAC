@@ -102,7 +102,9 @@ public class PlayingField {
 
         FieldResult tempResult = new FieldResult();
         System.out.println("mumble: " + mumble);
-        tempResult.setStartNode(this.field.getNode(mumble));
+        tempResult.setStartNode(mumble.getNode());
+        //tempResult.setStartNode(this.field.getNode(mumble));
+
 
         this.checkMove(player, tempResult.getStartNode(), tempResult, steps, mumble, 0, moveClockwise);
         return tempResult;

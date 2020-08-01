@@ -116,9 +116,9 @@ public class Player {
         List<Card> playerCards = new LinkedList<Card>();
 
         // add cards to list
-        playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.TWO));
         playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.FIVE));
-        playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.TWELVE));
+        playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.TWO));
+        playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.SEVEN));
         playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.ONE));
         playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.FOUR));
 

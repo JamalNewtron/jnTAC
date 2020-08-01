@@ -110,7 +110,7 @@ public class NumberedSpecialCard extends NumberedCard {
 
             while (stepsLeft > 0) {
 
-                System.out.println("Input split move: ");
+                System.out.println("Steps left: " + stepsLeft + ", Input split move: ");
                 userInput = in.nextLine();
                 int splitMove = Integer.parseInt(userInput);
 

@@ -123,11 +123,69 @@ public class PlayingField {
 
             if (mumble.isRoundDone()) {
                 System.out.println("roundDone");
-                this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
 
-                // restrict branch only for clockwise, it is not allowed to move into branch when moving backwards e.g. with card 4
-                if (moveClockwise) {
-                    this.checkMove(player, currentNode.branch, result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                System.out.println("inkrement: " + incrementalIndex);
+                System.out.println("currentNode: " + currentNode);
+                if (currentNode.data != null) {
+                    System.out.println("occupied");
+                    System.out.println(currentNode.index);
+                    if (steps == incrementalIndex) {
+                        System.out.println("targeposition occupied");
+                        if (currentNode.data.getPlayer().equals(mumble.getPlayer())) {
+                            System.out.println("target position occupied by own mumble");
+                            result.getTargetNodes().add(currentNode);
+                            result.getOccupationStatuses().add(OCCUPATION_STATUS.OCCUPIED_BY_ONESELF);
+                        } else {
+                            System.out.println("target position occupied by opponent mumble");
+                            result.getTargetNodes().add(currentNode);
+                            result.getOccupationStatuses().add(OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT);
+                        }
+                    } else {
+                        System.out.println("no target position, occupied");
+
+                        if (currentNode.data.equals(mumble)) {
+                            System.out.println("no target position, occupied by mumble itself");
+
+                            this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+
+                            // restrict branch only for clockwise, it is not allowed to move into branch when moving backwards e.g. with card 4
+                            if (moveClockwise) {
+                                this.checkMove(player, currentNode.branch, result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                            }
+
+                        } else {
+                            if (currentNode.data.getPlayer().equals(mumble.getPlayer())) {
+                                System.out.println("no target position, occupied by own mumble");
+                                result.getTargetNodes().add(currentNode);
+                                result.getOccupationStatuses().add(OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT);
+                            } else {
+                                System.out.println("target position occupied by opponent mumble");
+                                result.getTargetNodes().add(currentNode);
+                                result.getOccupationStatuses().add(OCCUPATION_STATUS.BLOCKED_BY_OPPONENT);
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("unoccupied");
+                    if (steps == incrementalIndex) {
+                        System.out.println("targetposition unoccupied");
+                        System.out.println("result: " + result.getTargetNodes());
+                        result.getTargetNodes().add(currentNode);
+                        result.getOccupationStatuses().add(OCCUPATION_STATUS.UNOCCUPIED);
+                    } else {
+                        System.out.println("not target position, slot unoccupied");
+
+                        if(currentNode.next == null) {
+                            System.out.println("no following node");
+                        } else {
+                            this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+
+                            // restrict branch only for clockwise, it is not allowed to move into branch when moving backwards e.g. with card 4
+                            if (moveClockwise) {
+                                this.checkMove(player, currentNode.branch, result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                            }
+                        }
+                    }
                 }
             } else {
                 // todo: ???

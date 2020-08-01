@@ -107,7 +107,6 @@ public class Player {
         return this.homeField;
     }
 
-
     public void drawCards() {
 
         // todo: later this needs to be done automatically!
@@ -118,13 +117,12 @@ public class Player {
 
         // add cards to list
         playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.TWO));
-        playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.THREE));
         playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.FIVE));
+        playerCards.add(new NumberedCard(AVAILABLE_CARD_NUMBERS.TWELVE));
         playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.ONE));
         playerCards.add(new NumberedSpecialCard(AVAILABLE_CARD_NUMBERS.FOUR));
 
         this.cards = playerCards;
-
     }
 
     // After the use of a card the player has to place the card on to the discard pile
@@ -135,6 +133,4 @@ public class Player {
     public void discardCard(final Card card){
         this.cards.remove(card);
     }
-
-
 }

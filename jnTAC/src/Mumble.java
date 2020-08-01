@@ -88,28 +88,29 @@ public class Mumble {
 
                 temp = PlayingField.getPlayingField().checkStartposition(player, this);
 
+                int selectedPosition = 0;
 
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED) {
+                if (temp.getOccupationStatuses().get(selectedPosition) == OCCUPATION_STATUS.UNOCCUPIED) {
                     System.out.println("Do you really want to placcceee?");
                     userInput = in.nextLine();
-                    if(userInput.equals("y") || userInput.equals("yes")) {
-                        PlayingField.getPlayingField().moveMumbleToStartField(temp, this);
+                    if (userInput.equals("y") || userInput.equals("yes")) {
+                        PlayingField.getPlayingField().moveMumbleToStartField(temp, this, selectedPosition);
                     }
                 }
 
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                if (temp.getOccupationStatuses().get(selectedPosition) == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
                     System.out.println("Do you really want to placcceee?");
                     userInput = in.nextLine();
-                    if(userInput.equals("y") || userInput.equals("yes")) {
+                    if (userInput.equals("y") || userInput.equals("yes")) {
                         // send mumble already on start position to home
-                        PlayingField.getPlayingField().moveMumbleToPreField(temp);
+                        PlayingField.getPlayingField().moveMumbleToPreField(temp, selectedPosition);
 
                         // place mumble to target
-                        PlayingField.getPlayingField().moveMumbleToStartField(temp, this);
+                        PlayingField.getPlayingField().moveMumbleToStartField(temp, this, selectedPosition);
                     }
                 }
 
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
+                if (temp.getOccupationStatuses().get(selectedPosition) == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
                     System.out.println("occupied by yourself");
                 }
 
@@ -119,34 +120,90 @@ public class Mumble {
             case START_FIELD:
                 temp = PlayingField.getPlayingField().checkMove(player, steps, this, moveClockwise);
 
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.UNOCCUPIED) {
-                    System.out.println("Do you really want to place?");
-                    userInput = in.nextLine();
-                    if(userInput.equals("y") || userInput.equals("yes")) {
-                        PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this);
+                int input = 0;
+                // todo: when road is blocked -> user should not be allowed to choose blocked way!
+                if (temp.getOccupationStatuses().size() > 1) {
+                    System.out.println("There are more than one possible position");
+                    System.out.println("Position ");
+                    for (int i = 0; i < temp.getOccupationStatuses().size(); i++) {
+                        System.out.println("Position("
+                                + i
+                                + "): "
+                                + temp.getTargetNodes().get(i).playground
+                                + "    "
+                                + temp.getTargetNodes().get(i).index);
                     }
-                }
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
-                    System.out.println("Do you really want to place?");
-                    userInput = in.nextLine();
-                    if(userInput.equals("y") || userInput.equals("yes")) {
 
-                        PlayingField.getPlayingField().moveMumbleToPreField(temp);
-                        PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this);
+                    System.out.println("move to position 0 or 1");
+
+                    userInput = in.nextLine();
+
+                    input = Integer.parseInt(userInput);
+                    if (userInput.equals("1") || userInput.equals("2")) {
+                        if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.UNOCCUPIED) {
+                            System.out.println("UNOCCUPIED: Do you really want to place?");
+                            userInput = in.nextLine();
+                            if (userInput.equals("y") || userInput.equals("yes")) {
+                                PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this, input);
+                            }
+                        }
+
+                        if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                            System.out.println("OCCUPIED_BY_OPPONENT: Do you really want to place?");
+                            userInput = in.nextLine();
+                            if (userInput.equals("y") || userInput.equals("yes")) {
+
+                                PlayingField.getPlayingField().moveMumbleToPreField(temp, input);
+                                PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this, input);
+
+                            }
+                        }
+
+                        if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
+                            System.out.println("OCCUPIED_BY_ONESELF: Do you really want to place?");
+                            userInput = in.nextLine();
+                            if (userInput.equals("y") || userInput.equals("yes")) {
+
+                                PlayingField.getPlayingField().moveMumbleToPreField(temp, input);
+                                PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this, input);
+                            }
+                        }
 
                     }
-                }
+                } else {
 
-                if(temp.getOccupationStatus() == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
-                    System.out.println("Do you really want to place?");
-                    userInput = in.nextLine();
-                    if(userInput.equals("y") || userInput.equals("yes")) {
-
-                        PlayingField.getPlayingField().moveMumbleToPreField(temp);
-                        PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this);
-
+                    if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.UNOCCUPIED) {
+                        System.out.println("Do you really want to place?");
+                        userInput = in.nextLine();
+                        if (userInput.equals("y") || userInput.equals("yes")) {
+                            PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this, input);
+                        }
                     }
+
+                    if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.OCCUPIED_BY_OPPONENT) {
+                        System.out.println("Do you really want to place?");
+                        userInput = in.nextLine();
+                        if (userInput.equals("y") || userInput.equals("yes")) {
+
+                            PlayingField.getPlayingField().moveMumbleToPreField(temp, input);
+                            PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this, input);
+
+                        }
+                    }
+
+                    if (temp.getOccupationStatuses().get(input) == OCCUPATION_STATUS.OCCUPIED_BY_ONESELF) {
+                        System.out.println("Do you really want to place?");
+                        userInput = in.nextLine();
+                        if (userInput.equals("y") || userInput.equals("yes")) {
+
+                            PlayingField.getPlayingField().moveMumbleToPreField(temp, input);
+                            PlayingField.getPlayingField().moveMumbleWithinStartField(temp, this, input);
+                        }
+                    }
+
+
                 }
+
 
                 //player.discardCard(card);
 
@@ -162,13 +219,11 @@ public class Mumble {
 
     // player has mumbles in PRE_FIELD
     public boolean isMumbleInPreField() {
-        if(PLAYGROUND.PRE_FIELD == this.currentField) {
+        if (PLAYGROUND.PRE_FIELD == this.currentField) {
             return true;
         }
         return false;
     }
-
-
 
 
 }

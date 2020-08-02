@@ -29,7 +29,7 @@ public class Mumble {
         //this.position = startPosition;
         this.currentField = startField;
         this.roundDone = roundDone;
-        this.node = new ListNode<Mumble>();
+        this.node = new ListNode<Mumble>(null, 0, PLAYGROUND.PRE_FIELD, null, null, null, null);
     }
 
     public Player getPlayer() {

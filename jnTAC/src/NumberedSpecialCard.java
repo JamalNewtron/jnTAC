@@ -32,8 +32,11 @@ public class NumberedSpecialCard extends NumberedCard {
 
         switch (this.getCardValue()){
             case ONE:
-                //this.moveToPosition(allPlayers, player, mumble, 1);
-                this.bringMumbleIntoPlay(allPlayers, player, mumble);
+                if(player.getMumbles().get(mumble).getNode().playground != PLAYGROUND.PRE_FIELD){
+                    super.playSelectedCard(allPlayers, player, mumble);
+                } else {
+                    this.bringMumbleIntoPlay(allPlayers, player, mumble);
+                }
                 break;
             case FOUR:
                 this.moveFourBack(allPlayers, player, mumble);
@@ -42,10 +45,14 @@ public class NumberedSpecialCard extends NumberedCard {
                 this.executeSplitMovement(allPlayers, player, mumble);
                 break;
             case EIGHT:
+                this.blockNextPlayer(allPlayers, player, mumble);
                 break;
             case THIRTEEN:
-                //this.moveToPosition(allPlayers, player, mumble, 13);
-                this.bringMumbleIntoPlay(allPlayers, player, mumble);
+                if(player.getMumbles().get(mumble).getNode().playground != PLAYGROUND.PRE_FIELD){
+                    super.playSelectedCard(allPlayers, player, mumble);
+                } else {
+                    this.bringMumbleIntoPlay(allPlayers, player, mumble);
+                }
                 break;
             default:
                 System.out.println("default playSelectedCard");
@@ -110,6 +117,7 @@ public class NumberedSpecialCard extends NumberedCard {
 
             while (stepsLeft > 0) {
 
+                // todo: which mumble to move
                 System.out.println("Steps left: " + stepsLeft + ", Input split move: ");
                 userInput = in.nextLine();
                 int splitMove = Integer.parseInt(userInput);
@@ -140,5 +148,14 @@ public class NumberedSpecialCard extends NumberedCard {
         }
     }
 
+    public void blockNextPlayer(final List<Player> allPlayers,
+                                     final Player player,
+                                     final int mumble) {
+        // Additional check
+        if(AVAILABLE_CARD_NUMBERS.EIGHT == this.getCardValue()) {
+
+
+        }
+    }
 }
 

@@ -64,6 +64,9 @@ public class NumberedCard implements Card {
 
         switch (this.cardValue){
 
+            case ONE:
+                this.calculateTargetPosition(allPlayers, player, mumble, 1);
+                break;
             case TWO:
                 this.calculateTargetPosition(allPlayers, player, mumble, 2);
                 break;
@@ -88,10 +91,12 @@ public class NumberedCard implements Card {
             case TWELVE:
                 this.calculateTargetPosition(allPlayers, player, mumble, 12);
                 break;
+            case THIRTEEN:
+                this.calculateTargetPosition(allPlayers, player, mumble, 13);
+                break;
             default:
                 System.out.println("default playSelectedCard");
                 break;
-
         }
     }
 

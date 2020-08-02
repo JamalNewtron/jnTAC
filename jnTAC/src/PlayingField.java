@@ -105,7 +105,6 @@ public class PlayingField {
         tempResult.setStartNode(mumble.getNode());
         //tempResult.setStartNode(this.field.getNode(mumble));
 
-
         this.checkMove(player, tempResult.getStartNode(), tempResult, steps, mumble, 0, moveClockwise);
         return tempResult;
     }
@@ -237,6 +236,8 @@ public class PlayingField {
                         if(currentNode.getNextPrev(moveClockwise) != null) {
                             System.out.println("no following node");
                             this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                        } else {
+                            System.out.println("null pointer");
                         }
                     }
                 }
@@ -266,6 +267,8 @@ public class PlayingField {
                         System.out.println("no target position, occupied by mumble itself");
                         if (currentNode.getNextPrev(moveClockwise) != null) {
                             this.checkMove(player, currentNode.getNextPrev(moveClockwise), result, steps, mumble, incrementalIndex + 1, moveClockwise);
+                        } else {
+                            System.out.println("null pointer");
                         }
                     } else {
                         if (currentNode.data.getPlayer().equals(mumble.getPlayer())) {
